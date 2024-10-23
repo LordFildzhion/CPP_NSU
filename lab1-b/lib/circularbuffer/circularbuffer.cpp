@@ -105,7 +105,7 @@ bool CircularBuffer<T>::is_linearized() const {
 }
 
 template <typename T>
-void CircularBuffer<T>::rotate(size_t new_begin) {
+void CircularBuffer<T>::rotate(const size_t new_begin) {
     for (size_t i = new_begin; i < first_element; i++) {
         std::swap(arr[i], arr[i - new_begin]);
     }
@@ -219,7 +219,7 @@ template <typename T>
 void CircularBuffer<T>::insert(const size_t pos, const T &item) {
     if (first_element == 0) {
         if () {
-
+            
         }
     }
 }
