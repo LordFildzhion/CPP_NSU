@@ -19,10 +19,10 @@ const T& CircularBuffer<T>::at(size_t index) const {
 }
 
 template <typename T>
-T& CircularBuffer<T>::operator[](size_t index) { return arr[index]; }
+T& CircularBuffer<T>::operator[](const size_t &index) { return arr[index]; }
 
 template <typename T>
-const T& CircularBuffer<T>::operator[](size_t index) const { return arr[index]; }
+const T& CircularBuffer<T>::operator[](const size_t &index) const { return arr[index]; }
 
 template <typename T>
 CircularBuffer<T>& CircularBuffer<T>::operator=(const CircularBuffer<T> &new_buffer) {
@@ -105,7 +105,7 @@ bool CircularBuffer<T>::is_linearized() const {
 }
 
 template <typename T>
-void CircularBuffer<T>::rotate(const size_t new_begin) {
+void CircularBuffer<T>::rotate(const size_t &new_begin) {
     for (size_t i = new_begin; i < first_element; i++) {
         std::swap(arr[i], arr[i - new_begin]);
     }
@@ -147,7 +147,7 @@ void CircularBuffer<T>::set_capacity(const size_t &new_capacity) {
 }
 
 template <typename T>
-void CircularBuffer<T>::resize(size_t new_size, const T& item) {
+void CircularBuffer<T>::resize(const size_t &new_size, const T& item) {
     (*this).set_capacity(new_size);
 
     for (size_t i = current_size; i < new_size; i++) {
@@ -216,11 +216,22 @@ void CircularBuffer<T>::pop_front() {
 }
 
 template <typename T>
-void CircularBuffer<T>::insert(const size_t pos, const T &item) {
-    if (first_element == 0) {
-        if () {
-            
+void CircularBuffer<T>::insert(const size_t &pos, const T &item) {
+
+    if (pos > current_size) {
+        std::cerr << "ERROR:: CIRCULAR_BUFFER::INSERT::BAD POSITION FOR INSERT (POSITION > BUFFER'S SIZE)" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    if (current_size == capacity) {
+        if (first_element + 1 < current_size) {
+            arr[first_element++] = item;
+        } else {
+            first_element = 0;
+            arr[first_element] = item;
         }
+    } else {
+        
     }
 }
 

@@ -24,8 +24,8 @@ class CircularBuffer{
     
     ~CircularBuffer() { delete[] arr; }
 
-    T &operator[](size_t index);
-    const T &operator[](size_t index) const;
+    T &operator[](const size_t &index);
+    const T &operator[](const size_t &index) const;
   
     //Index access. The methods throw an exception if the index is invalid.
     T &at(size_t index);
@@ -46,7 +46,7 @@ class CircularBuffer{
 
     //Shifts the buffer so that the 
     //with index new_begin.
-    void rotate(const size_t new_begin);
+    void rotate(const size_t &new_begin);
     
     //Size of circular buffer
     size_t size() const;
@@ -68,7 +68,7 @@ class CircularBuffer{
     
     //Changes the size of the buffer.
     //In the case of extension, new items are populated with the item element.
-    void resize(size_t new_size, const T &item);
+    void resize(const size_t &new_size, const T &item);
     
     //Assignment statement.
     CircularBuffer &operator=(const CircularBuffer &new_buffer);
@@ -92,10 +92,10 @@ class CircularBuffer{
     void pop_front();
 
     //Inserts the item element by the pos index. Buffer capacity remains unchanged.
-    void insert(const size_t pos, const T &item);
+    void insert(const size_t &pos, const T &item);
 
     //Removes elements from the buffer in the interval [first, last).
-    void erase(size_t first, size_t last);
+    void erase(const size_t &first, const size_t &last);
 
     //Clears the buffer.
     void clear();
