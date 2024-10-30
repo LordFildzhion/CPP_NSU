@@ -223,7 +223,7 @@ void CircularBuffer<T>::insert(const size_t &pos, const T &item) {
         exit(EXIT_FAILURE);
     }
 
-    if (current_size == capacity) {
+    if (current_size == cap) {
         if (first_element + 1 < current_size) {
             arr[first_element++] = item;
         } else {
@@ -231,7 +231,32 @@ void CircularBuffer<T>::insert(const size_t &pos, const T &item) {
             arr[first_element] = item;
         }
     } else {
-        
+        for (size_t i = current_size; i > pos; i--) {
+            std::swap(arr[i], arr[i - 1]);
+        }
+        arr[pos] = item;
+    }
+}
+
+template <typename T>
+void CircularBuffer<T>::erase(const size_t &first, const size_t &last) {
+    if (first > last) {
+        std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (FIRST > LAST)" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    
+    if (current_size < cap) {
+        if (current_size < first) {
+            std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (FIRST > BUFFER SIZE)" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+
+        if (current_size < last) {
+            std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (LAST > BUFFER SIZE)" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+
+        // Work in progress
     }
 }
 
