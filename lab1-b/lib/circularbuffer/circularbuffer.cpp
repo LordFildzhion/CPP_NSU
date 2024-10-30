@@ -240,23 +240,45 @@ void CircularBuffer<T>::insert(const size_t &pos, const T &item) {
 
 template <typename T>
 void CircularBuffer<T>::erase(const size_t &first, const size_t &last) {
+
+    if (current_size < first) {
+        std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (FIRST > BUFFER SIZE)" << std::endl;
+        exit(EXIT_FAILURE);
+    }
+
+    if (current_size < last) {
+        std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (LAST > BUFFER SIZE)" << std::endl;
+        exit(EXIT_FAILURE);
+    }
     if (first > last) {
         std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (FIRST > LAST)" << std::endl;
         exit(EXIT_FAILURE);
     }
     
     if (current_size < cap) {
-        if (current_size < first) {
-            std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (FIRST > BUFFER SIZE)" << std::endl;
-            exit(EXIT_FAILURE);
+
+        for (size_t i = first, j = last; j < current_size && i < last; i++, j++) {
+            std::swap(arr[i], arr[j]);
+        }
+        current_size -= last - first;
+    
+    }
+    else {
+
+        size_t size_difference = last - first;
+
+        if (size_difference == cap) {
+            current_size = 0;
+            return;
         }
 
-        if (current_size < last) {
-            std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (LAST > BUFFER SIZE)" << std::endl;
-            exit(EXIT_FAILURE);
+        for (size_t i = 0; i < size_difference; i++) {
+            std::swap(arr[first_element + first + i], arr[(first_element + last + i) % cap]);
         }
 
-        // Work in progress
+        if (first_element >= first && first_element <= last) {
+            first_element = 0;
+        }
     }
 }
 
