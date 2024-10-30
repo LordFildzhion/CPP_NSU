@@ -10,9 +10,14 @@
 #include <tuple>
 
 class word_counter {
+
+ private:
+    void parser(std::string &word);
+
  public:
     explicit word_counter(std::string input_filename = "in.txt",
                 std::string output_filename = "out.csv") {
+
         in.open(input_filename);
         if (!in.is_open()) {
             std::cerr << "ERROR: word_counter.hpp: Input file "<< input_filename << " can't be open" << std::endl;
@@ -27,6 +32,8 @@ class word_counter {
     }
 
     void reader();
+
+    void calculate();
 
     void writer();
 
@@ -46,6 +53,7 @@ class word_counter {
 
     std::ifstream in;
     std::ofstream out;
+    std::vector <std::string> words;
     std::map <std::string, size_t> counter;
     std::vector<word_information> word_list;
 };

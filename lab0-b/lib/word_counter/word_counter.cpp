@@ -1,21 +1,31 @@
 #include "./word_counter.hpp"
 #include <iomanip>
 
+void word_counter::parser(std::string &word) {
+    for (size_t i = 0; i < word.size(); i++) {
+            if (isalnum(word[i]))
+                word[i] = std::tolower(word[i]);
+            else
+                word.erase(i, 1);
+        }
+}
+
 void word_counter::reader() {
     std::string str;
+
+    while (in >> str) {
+        parser(str);
+        words.push_back(str);
+    }
+}
+
+void word_counter::calculate() {
     size_t largest_word_size = 0;
     size_t words_count = 0;
 
-    while (in >> str) {
-        for (size_t i = 0; i < str.size(); i++) {
-            if (isalnum(str[i]))
-                str[i] = std::tolower(str[i]);
-            else
-                str.erase(i, 1);
-        }
-
-        largest_word_size = std::max(str.size(), largest_word_size);
-        counter[str]++;
+    for (auto &word : words) {
+        largest_word_size = std::max(word.size(), largest_word_size);
+        counter[word]++;
         words_count++;
     }
 
