@@ -1,4 +1,5 @@
-#pragma once
+#ifndef WORD_COUNTER_HPP
+#define WORD_COUNTER_HPP
 
 #include <iostream>
 #include <string>
@@ -9,6 +10,7 @@
 #include <algorithm>
 #include <tuple>
 
+
 class word_counter {
 
  private:
@@ -16,33 +18,15 @@ class word_counter {
 
  public:
     explicit word_counter(std::string input_filename = "in.txt",
-                std::string output_filename = "out.csv") {
+                          std::string output_filename = "out.csv");
 
-        in.open(input_filename);
-        if (!in.is_open()) {
-            std::cerr << "ERROR: word_counter.hpp: Input file "<< input_filename << " can't be open" << std::endl;
-            exit(EXIT_FAILURE);
-        }
-
-        out.open(output_filename);
-        if (!out.is_open()) {
-            std::cerr << "ERROR: word_counter.hpp: Output file " << output_filename << " can't be open" << std::endl;
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    void reader();
+    virtual void read();
 
     void calculate();
 
-    void writer();
+    virtual void write();
 
-    ~word_counter() {
-        in.close();
-        out.close();
-        counter.clear();
-        word_list.clear();
-    }
+    ~word_counter();
 
  private:
     struct word_information {
@@ -54,6 +38,8 @@ class word_counter {
     std::ifstream in;
     std::ofstream out;
     std::vector <std::string> words;
-    std::map <std::string, size_t> counter;
+    std::map <std::string, size_t> counter_of_words;
     std::vector<word_information> word_list;
 };
+
+#endif //WORD_COUNTER_HPP
