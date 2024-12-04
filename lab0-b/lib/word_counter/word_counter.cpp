@@ -3,8 +3,11 @@
 #include "word_counter.hpp"
 
 
-word_counter::word_counter (std::string input_filename = "in.txt",
-                std::string output_filename = "out.csv") {
+const char* wc_error::what() const noexcept{
+    return error_message.c_str();
+}
+
+word_counter::word_counter (std::string input_filename, std::string output_filename) {
 
     in.open(input_filename);
     if (!in.is_open()) {

@@ -11,6 +11,14 @@
 #include <tuple>
 
 
+class wc_error : public std::exception {
+ private:
+    std::string error_message;
+ public:
+    wc_error(const std::string &message): error_message(message) {}
+    const char* what() const noexcept;
+};
+
 class word_counter {
 
  private:

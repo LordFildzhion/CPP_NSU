@@ -6,8 +6,9 @@
 int main(int argc, char* argv[]) {
     if (argc != 3) {
         std::cout << "ERROR: main.cpp: check on count arguments: "
-                  << (argc < 3 ? "More arguments are needed"
-                               : "Fewer arguments are needed");
+                  << (argc < 3 ? "More arguments are needed (3)"
+                               : "Fewer arguments are needed (3)")
+                  << std::endl << "program.exe input_file.txt output_file.csv";
         return 0;
     }
 
@@ -16,11 +17,12 @@ int main(int argc, char* argv[]) {
     try
     {
         wc.read();
+        wc.calculate();
         wc.write();
     }
-    catch(const std::string& error)
+    catch(const wc_error error)
     {
-        std::cerr << error << '\n';
+        std::cerr << error.what() << '\n';
     }
 
     return 0;
