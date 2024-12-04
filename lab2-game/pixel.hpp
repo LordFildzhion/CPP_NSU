@@ -20,13 +20,13 @@ public:
 
     pixel(std::pair <int32_t, int32_t> new_coordinats, uint8_t new_color = NOT_COLOR);
 
-    std::pair <int32_t, int32_t> get_coordinats();
+    const std::pair <int32_t, int32_t> get_coordinats() const;
 
     void set_coordinats (std::pair <int32_t, int32_t> new_coordinats);
 
     void set_coordinats (int32_t new_x, int32_t new_y);
 
-    uint8_t get_color();
+    const uint8_t get_color() const;
 
     void set_color (uint8_t new_color);
 
@@ -54,7 +54,7 @@ pixel::pixel(std::pair <int32_t, int32_t> new_coordinats, uint8_t new_color = NO
     color_ = new_color;
 }
 
-std::pair <int32_t, int32_t> pixel::get_coordinats() {
+const std::pair <int32_t, int32_t> pixel::get_coordinats() const{
     return coordinats_;
 }
 
@@ -67,7 +67,7 @@ void pixel::set_coordinats(int32_t x, int32_t y) {
     coordinats_.second = y;
 }
 
-uint8_t pixel::get_color() {
+const uint8_t pixel::get_color() const{
     return color_;
 }
 

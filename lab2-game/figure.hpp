@@ -29,35 +29,35 @@ public:
     figure(uint8_t new_type = TYPE_I, uint8_t new_color = NOT_COLOR,
     uint8_t new_rotation = FIRST_ROTATION, std::pair <int32_t, int32_t> new_center = std::pair<int,int>(3, -3));
 
-    void set_color (uint8_t color = NOT_COLOR);
+    void set_color(const uint8_t &color = NOT_COLOR);
 
-    void set_type(uint8_t type = TYPE_I);
+    void set_type(const uint8_t &type = TYPE_I);
 
-    void set_rotation(uint8_t rotation = FIRST_ROTATION);
+    void set_rotation(const uint8_t &rotation = FIRST_ROTATION);
 
-    void set_center(std::pair<int32_t, int32_t> = std::pair<int,int>(3, -3));
+    void set_center(const std::pair<int32_t, int32_t> &new_center = std::pair<int,int>(3, -3));
 
-    void set_coordinats(std::vector <std::pair <int32_t, int32_t> > new_coordinates);
+    void set_coordinats(const std::vector <std::pair <int32_t, int32_t> > &new_coordinates);
 
-    void set_pixels(std::vector <pixel> new_pixels);
+    void set_pixels(const std::vector <pixel> &new_pixels);
 
-    void add_pixels(std::vector <pixel> new_pixels);
+    void add_pixels(const std::vector <pixel> &new_pixels);
 
-    void add_pixel(pixel new_pixel);
+    void add_pixel(const pixel &new_pixel);
 
-    void add_coordinates(std::vector <std::pair <int32_t, int32_t> > new_coordinates);
+    void add_coordinates(const std::vector <std::pair <int32_t, int32_t> > &new_coordinates);
 
-    void add_coordinate(std::pair<int32_t, int32_t> new_coordinate);
+    void add_coordinate(const std::pair<int32_t, int32_t> &new_coordinate);
 
-    uint8_t get_color();
+    const uint8_t get_color() const;
 
-    uint8_t get_type();
+    const uint8_t get_type() const;
 
-    uint8_t get_rotation();
+    const uint8_t get_rotation() const;
 
-    std::vector <pixel> get_pixels();
+    const std::vector <pixel> get_pixels() const;
 
-    std::vector <std::pair <int32_t, int32_t> > get_coordinats();
+    const std::vector <std::pair <int32_t, int32_t> > get_coordinats() const;
 
     ~figure();
 
@@ -97,7 +97,7 @@ private:
 };
 
 
-void figure::set_color(uint8_t color) {
+void figure::set_color(const uint8_t &color) {
     color_ = color;
 
     for (auto &pix : pixels_) {
@@ -231,7 +231,7 @@ void figure::create_S() {
 
 }
 
-void figure::set_type(uint8_t type) {
+void figure::set_type(const uint8_t &type) {
     type_ = type;
 
     switch (type_) {
@@ -291,7 +291,7 @@ void figure::down_twist() {
     set_type(type_);
 }
 
-void figure::set_rotation(uint8_t rotation) {
+void figure::set_rotation(const uint8_t &rotation) {
 
     rotation_ = rotation;
 
@@ -334,7 +334,7 @@ figure::figure (uint8_t new_type,
 
 }
 
-void figure::set_center(std::pair<int,int> new_center = std::pair<int,int>(3, -3)) {
+void figure::set_center(const std::pair<int,int> &new_center) {
     for (auto &pix : pixels_) {
         pix.set_coordinats(pix.get_coordinats().second - center_.first, pix.get_coordinats().second - center_.second);
         pix.set_coordinats(pix.get_coordinats().second - new_center.first, pix.get_coordinats().second - new_center.second);
@@ -343,7 +343,7 @@ void figure::set_center(std::pair<int,int> new_center = std::pair<int,int>(3, -3
     center_ = new_center;
 }
 
-void figure::set_coordinats(std::vector <std::pair <int32_t, int32_t> > new_coordinates) {
+void figure::set_coordinats(const std::vector <std::pair <int32_t, int32_t> > &new_coordinates) {
     
     pixels_.clear();
 
@@ -353,15 +353,15 @@ void figure::set_coordinats(std::vector <std::pair <int32_t, int32_t> > new_coor
 
 }
 
-void figure::set_pixels(std::vector <pixel> new_pixels) {
-
+void figure::set_pixels(const std::vector <pixel> &new_pixels) {
+    pixels_ = new_pixels;
 }
 
-void figure::add_pixels(std::vector <pixel> new_pixels);
+void figure::add_pixels(const std::vector <pixel> &new_pixels);
 
-void figure::add_pixel(pixel new_pixel);
+void figure::add_pixel(const pixel &new_pixel);
 
-void figure::add_coordinates(std::vector <std::pair <int32_t, int32_t> > new_coordinates) {
+void figure::add_coordinates(const std::vector <std::pair <int32_t, int32_t> > &new_coordinates) {
 
     for (auto &new_coordinate : new_coordinates) {
         pixels_.push_back(pixel(new_coordinate, color_));
@@ -369,27 +369,27 @@ void figure::add_coordinates(std::vector <std::pair <int32_t, int32_t> > new_coo
 
 }
 
-void figure::add_coordinate(std::pair<int32_t, int32_t> new_coordinate) {
+void figure::add_coordinate(const std::pair<int32_t, int32_t> &new_coordinate) {
     pixels_.push_back(pixel(new_coordinate, color_));
 }
 
-uint8_t figure::get_color() {
+const uint8_t figure::get_color() const{
     return color_;
 }
 
-uint8_t figure::get_type() {
+const uint8_t figure::get_type() const{
     return type_;
 }
 
-uint8_t figure::get_rotation() {
+const uint8_t figure::get_rotation() const{
     return rotation_;
 }
 
-std::vector <pixel> figure::get_pixels() {
+const std::vector <pixel> figure::get_pixels() const {
     return pixels_;
 }
 
-std::vector <std::pair <int32_t, int32_t> > figure::get_coordinats() {
+const std::vector <std::pair <int32_t, int32_t> > figure::get_coordinats() const{
     std::vector <std::pair <int32_t, int32_t>> coordinats;
 
     for (auto &pix : pixels_) {
