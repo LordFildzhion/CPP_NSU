@@ -1,28 +1,76 @@
 #include "circularbuffer.hpp"
 
+
+const char* cb_error::what() const noexcept{
+    return error_message.c_str();
+}
+
+template <typename T>
+CircularBuffer<T>::CircularBuffer() {
+    cap = 0;
+    arr = nullptr;
+    current_size = 0;
+    first_element = 0;
+}
+
+template <typename T>
+CircularBuffer<T>::CircularBuffer(const CircularBuffer<T> &a_) {
+
+    cap = a_.capacity();
+    arr = new T[cap];
+    current_size = a_.size();
+    first_element = 0;
+
+    for (size_t it = 0; it < current_size; it++) {
+        arr[it] = a_[it];
+    }
+}
+
+template <typename T>
+CircularBuffer<T>::CircularBuffer(const size_t cap_, T def){
+    
+    cap = cap_;
+    arr = new T[cap_];
+    current_size = cap_;
+    first_element = 0;
+
+    for (size_t it = 0; it < cap; it++) {
+        arr[it] = def;
+    }
+}
+
+template <typename T>
+CircularBuffer<T>::~CircularBuffer() {
+    delete[] arr;
+}
+
 template <typename T>
 T& CircularBuffer<T>::at(size_t index) {
     if (index >= current_size) {
-        std::cerr << "Error: Invalid buffer index" << std::endl;
-        exit(EXIT_FAILURE);
+        throw std::string("ERROR:: CIRCULAR_BUFFER::AT::INVALID BUFFER INDEX");
     }
+
     return arr[index];
 }
 
 template <typename T>
 const T& CircularBuffer<T>::at(size_t index) const {
     if (index >= current_size) {
-        std::cerr << "Error: Invalid buffer index" << std::endl;
-        exit(EXIT_FAILURE);
+        throw std::string("ERROR:: CIRCULAR_BUFFER::AT::INVALID BUFFER INDEX");
     }
+
     return arr[index];
 }
 
 template <typename T>
-T& CircularBuffer<T>::operator[](const size_t &index) { return arr[index]; }
+T& CircularBuffer<T>::operator[](const size_t &index) {
+    return arr[index];
+}
 
 template <typename T>
-const T& CircularBuffer<T>::operator[](const size_t &index) const { return arr[index]; }
+const T& CircularBuffer<T>::operator[](const size_t &index) const {
+    return arr[index];
+}
 
 template <typename T>
 CircularBuffer<T>& CircularBuffer<T>::operator=(const CircularBuffer<T> &new_buffer) {
@@ -54,6 +102,7 @@ bool CircularBuffer<T>::operator==(const CircularBuffer<T> &b) {
             return false;
         }
     }
+
     return true;
 }
 
@@ -96,6 +145,7 @@ T* CircularBuffer<T>::linearize() {
         std::swap(arr[i], arr[i - first_element]);
     }
     first_element = 0;
+
     return &arr[first_element];
 }
 
@@ -119,19 +169,29 @@ void CircularBuffer<T>::swap(CircularBuffer &b) {
 }
 
 template <typename T>
-bool CircularBuffer<T>::full() const { return current_size == cap; }
+bool CircularBuffer<T>::full() const {
+    return current_size == cap;
+}
 
 template <typename T>
-bool CircularBuffer<T>::empty() const { return current_size == 0; }
+bool CircularBuffer<T>::empty() const {
+    return current_size == 0;
+}
 
 template <typename T>
-size_t CircularBuffer<T>::size() const { return current_size; }
+size_t CircularBuffer<T>::size() const {
+    return current_size;
+}
 
 template <typename T>
-size_t CircularBuffer<T>::capacity() const { return cap; }
+size_t CircularBuffer<T>::capacity() const {
+    return cap;
+}
 
 template <typename T>
-size_t CircularBuffer<T>::reserve() const { return cap - current_size; }
+size_t CircularBuffer<T>::reserve() const {
+    return cap - current_size;
+}
 
 template <typename T>
 void CircularBuffer<T>::set_capacity(const size_t &new_capacity) {
@@ -148,7 +208,7 @@ void CircularBuffer<T>::set_capacity(const size_t &new_capacity) {
 
 template <typename T>
 void CircularBuffer<T>::resize(const size_t &new_size, const T& item) {
-    (*this).set_capacity(new_size);
+    set_capacity(new_size);
 
     for (size_t i = current_size; i < new_size; i++) {
         arr[i] = item;
@@ -172,8 +232,7 @@ void CircularBuffer<T>::push_back(const T& new_element) {
 
 template <typename T>
 void CircularBuffer<T>::push_front(const T& new_element) {
-    if (first_element == 0)
-    {
+    if (first_element == 0) {
         first_element = cap;
     }
     arr[--first_element] = new_element;
@@ -191,8 +250,7 @@ void CircularBuffer<T>::pop_back() {
 
     if (first_element != 0) {
         std::swap(arr[current_size - 1], arr[first_element - 1]);
-        for (size_t i = first_element - 1; i > 0; i--)
-        {
+        for (size_t i = first_element - 1; i > 0; i--) {
             std::swap(arr[i], arr[i - 1]);
         }
     }
@@ -219,8 +277,7 @@ template <typename T>
 void CircularBuffer<T>::insert(const size_t &pos, const T &item) {
 
     if (pos > current_size) {
-        std::cerr << "ERROR:: CIRCULAR_BUFFER::INSERT::BAD POSITION FOR INSERT (POSITION > BUFFER'S SIZE)" << std::endl;
-        exit(EXIT_FAILURE);
+        throw std::string("ERROR:: CIRCULAR_BUFFER::INSERT::BAD POSITION FOR INSERT (POSITION > BUFFER'S SIZE)");
     }
 
     if (current_size == cap) {
@@ -242,17 +299,14 @@ template <typename T>
 void CircularBuffer<T>::erase(const size_t &first, const size_t &last) {
 
     if (current_size < first) {
-        std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (FIRST > BUFFER SIZE)" << std::endl;
-        exit(EXIT_FAILURE);
+        throw std::string("ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (FIRST > BUFFER SIZE)");
     }
 
     if (current_size < last) {
-        std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (LAST > BUFFER SIZE)" << std::endl;
-        exit(EXIT_FAILURE);
+        throw std::string("ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (LAST > BUFFER SIZE)");
     }
     if (first > last) {
-        std::cerr << "ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (FIRST > LAST)" << std::endl;
-        exit(EXIT_FAILURE);
+        throw std::string("ERROR:: CIRCULAR_BUFFER::ERASE::UNCORRECT VALUE FOR ERASE (FIRST > LAST)");
     }
     
     if (current_size < cap) {

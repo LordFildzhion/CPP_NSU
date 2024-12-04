@@ -1,28 +1,30 @@
+#ifndef CIRCULARBUFFER_HPP
+#define CIRCULARBUFFER_HPP
+
 #include <iostream>
 #include <algorithm>
 #include <concepts>
 #include <type_traits>
 
-#pragma once
+
+class cb_error : public std::exception {
+ private:
+    std::string error_message;
+ public:
+    cb_error(const std::string &message): error_message(message) {}
+    const char* what() const noexcept;
+};
+
 template <typename T>
 class CircularBuffer{
  public:
-    CircularBuffer(): cap {0}, arr{{}}, current_size{0}, first_element{0}
-    { }
+    CircularBuffer();
     
-    CircularBuffer(const CircularBuffer &a_): cap{a_.capacity()}, arr{new T[cap]}, current_size{a_.size()}, first_element{0} {
-        for (size_t it = 0; it < current_size; it++) {
-            arr[it] = a_[it];
-        }
-    }
+    CircularBuffer(const CircularBuffer &a_);
     
-    CircularBuffer(const size_t cap_, T def):  cap{cap_}, arr{new T[cap_] }, current_size{cap_}, first_element{0} {
-        for (size_t it = 0; it < cap; it++) {
-            arr[it] = def;
-        }
-    }
+    CircularBuffer(const size_t cap_, T def);
     
-    ~CircularBuffer() { delete[] arr; }
+    ~CircularBuffer();
 
     T &operator[](const size_t &index);
     const T &operator[](const size_t &index) const;
@@ -110,3 +112,5 @@ private:
     size_t current_size;
     size_t first_element;
 };
+
+#endif
