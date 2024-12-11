@@ -43,6 +43,9 @@ class word_counter {
         double percents;
     };
 
+    // Add comments
+    static const size_t PRESICTION_VALUE = 6;
+
     std::ifstream in;
     std::ofstream out;
     std::vector <std::string> words;
