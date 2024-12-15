@@ -11,10 +11,11 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(GameTests
-    figureCreationTests.hpp
-    figureTests.hpp
-    pixelTests.hpp
+add_executable(
+    GameTests
+    figureCreaterTests.cpp
+    figureTests.cpp
+    pixelTests.cpp
 )
 
 target_link_libraries(
@@ -29,4 +30,4 @@ target_include_directories(
 )
 
 include(GoogleTest)
-add_test(NAME tests COMMAND tests)
+gtest_discover_tests(GameTests)

@@ -26,10 +26,10 @@ enum TYPES_OF_FIGURE {
 
 class figure {
 public:
-    figure(uint8_t new_type = TYPE_I, uint8_t new_color = NOT_COLOR,
+    figure(uint8_t new_type = TYPE_I, uint8_t new_color = color::NOT_COLOR,
     uint8_t new_rotation = FIRST_ROTATION, std::pair <int32_t, int32_t> new_center = std::pair<int,int>(3, -3));
 
-    void set_color(const uint8_t &color = NOT_COLOR);
+    void setColor(const uint8_t &color = color::NOT_COLOR);
 
     void set_type(const uint8_t &type = TYPE_I);
 
@@ -37,7 +37,7 @@ public:
 
     void set_center(const std::pair<int32_t, int32_t> &new_center = std::pair<int,int>(3, -3));
 
-    void set_coordinats(const std::vector <std::pair <int32_t, int32_t> > &new_coordinates);
+    void setCoordinats(const std::vector <std::pair <int32_t, int32_t> > &new_coordinates);
 
     void set_pixels(const std::vector <pixel> &new_pixels);
 
@@ -57,7 +57,7 @@ public:
 
     const std::vector <pixel> get_pixels() const;
 
-    const std::vector <std::pair <int32_t, int32_t> > get_coordinats() const;
+    const std::vector <std::pair <int32_t, int32_t> > getCoordinats() const;
 
     ~figure();
 
@@ -97,11 +97,11 @@ private:
 };
 
 
-void figure::set_color(const uint8_t &color) {
+void figure::setColor(const uint8_t &color) {
     color_ = color;
 
     for (auto &pix : pixels_) {
-        pix.set_color(color_);
+        pix.setColor(color_);
     }
 }
 
@@ -116,10 +116,10 @@ void figure::set_color(const uint8_t &color) {
 void figure::create_J() {
     pixels_.resize(4);
 
-    pixels_[0].set_coordinats(center_.first, center_.second);
-    pixels_[1].set_coordinats(center_.first, center_.second - 2);
-    pixels_[2].set_coordinats(center_.first, center_.second - 1);
-    pixels_[3].set_coordinats(center_.first - 1, center_.second);
+    pixels_[0].setCoordinats(center_.first, center_.second);
+    pixels_[1].setCoordinats(center_.first, center_.second - 2);
+    pixels_[2].setCoordinats(center_.first, center_.second - 1);
+    pixels_[3].setCoordinats(center_.first - 1, center_.second);
 
 }
 
@@ -134,10 +134,10 @@ void figure::create_J() {
 void figure::create_I() {
     pixels_.resize(4);
 
-    pixels_[0].set_coordinats(center_.first, center_.second);
-    pixels_[1].set_coordinats(center_.first, center_.second - 2);
-    pixels_[2].set_coordinats(center_.first, center_.second - 1);
-    pixels_[3].set_coordinats(center_.first, center_.second + 1);
+    pixels_[0].setCoordinats(center_.first, center_.second);
+    pixels_[1].setCoordinats(center_.first, center_.second - 2);
+    pixels_[2].setCoordinats(center_.first, center_.second - 1);
+    pixels_[3].setCoordinats(center_.first, center_.second + 1);
 
 }
 
@@ -152,10 +152,10 @@ void figure::create_I() {
 void figure::create_O() {
     pixels_.resize(4);
 
-    pixels_[0].set_coordinats(center_.first, center_.second);
-    pixels_[1].set_coordinats(center_.first, center_.second - 1);
-    pixels_[2].set_coordinats(center_.first + 1, center_.second);
-    pixels_[3].set_coordinats(center_.first + 1, center_.second - 1);
+    pixels_[0].setCoordinats(center_.first, center_.second);
+    pixels_[1].setCoordinats(center_.first, center_.second - 1);
+    pixels_[2].setCoordinats(center_.first + 1, center_.second);
+    pixels_[3].setCoordinats(center_.first + 1, center_.second - 1);
 
 }
 
@@ -170,10 +170,10 @@ void figure::create_O() {
 void figure::create_L() {
     pixels_.resize(4);
 
-    pixels_[0].set_coordinats(center_.first, center_.second);
-    pixels_[1].set_coordinats(center_.first, center_.second - 2);
-    pixels_[2].set_coordinats(center_.first, center_.second - 1);
-    pixels_[3].set_coordinats(center_.first + 1, center_.second);
+    pixels_[0].setCoordinats(center_.first, center_.second);
+    pixels_[1].setCoordinats(center_.first, center_.second - 2);
+    pixels_[2].setCoordinats(center_.first, center_.second - 1);
+    pixels_[3].setCoordinats(center_.first + 1, center_.second);
 
 }
 
@@ -188,10 +188,10 @@ void figure::create_L() {
 void figure::create_Z() {
     pixels_.resize(4);
 
-    pixels_[0].set_coordinats(center_.first, center_.second);
-    pixels_[1].set_coordinats(center_.first - 1, center_.second);
-    pixels_[2].set_coordinats(center_.first, center_.second + 1);
-    pixels_[3].set_coordinats(center_.first + 1, center_.second + 1);
+    pixels_[0].setCoordinats(center_.first, center_.second);
+    pixels_[1].setCoordinats(center_.first - 1, center_.second);
+    pixels_[2].setCoordinats(center_.first, center_.second + 1);
+    pixels_[3].setCoordinats(center_.first + 1, center_.second + 1);
 
 }
 
@@ -206,10 +206,10 @@ void figure::create_Z() {
 void figure::create_T() {
     pixels_.resize(4);
 
-    pixels_[0].set_coordinats(center_.first, center_.second);
-    pixels_[1].set_coordinats(center_.first - 1, center_.second);
-    pixels_[2].set_coordinats(center_.first + 1, center_.second);
-    pixels_[3].set_coordinats(center_.first, center_.second + 1);
+    pixels_[0].setCoordinats(center_.first, center_.second);
+    pixels_[1].setCoordinats(center_.first - 1, center_.second);
+    pixels_[2].setCoordinats(center_.first + 1, center_.second);
+    pixels_[3].setCoordinats(center_.first, center_.second + 1);
 
 }
 
@@ -224,10 +224,10 @@ void figure::create_T() {
 void figure::create_S() {
     pixels_.resize(4);
 
-    pixels_[0].set_coordinats(center_.first, center_.second);
-    pixels_[1].set_coordinats(center_.first + 1, center_.second);
-    pixels_[2].set_coordinats(center_.first, center_.second + 1);
-    pixels_[3].set_coordinats(center_.first, center_.second + 1);
+    pixels_[0].setCoordinats(center_.first, center_.second);
+    pixels_[1].setCoordinats(center_.first + 1, center_.second);
+    pixels_[2].setCoordinats(center_.first, center_.second + 1);
+    pixels_[3].setCoordinats(center_.first, center_.second + 1);
 
 }
 
@@ -271,19 +271,19 @@ void figure::set_type(const uint8_t &type) {
 
 void figure::left_twist() {
     for (auto &pix : pixels_) {
-        pix.set_coordinats(pix.get_coordinats().second - center_.second, -(pix.get_coordinats().first - center_.first));
+        pix.setCoordinats(pix.getCoordinats().second - center_.second, -(pix.getCoordinats().first - center_.first));
     }
 }
 
 void figure::right_twist() {
     for (auto &pix : pixels_) {
-        pix.set_coordinats(-(pix.get_coordinats().second - center_.second), (pix.get_coordinats().first - center_.first));
+        pix.setCoordinats(-(pix.getCoordinats().second - center_.second), (pix.getCoordinats().first - center_.first));
     }
 }
 
 void figure::up_twist() {
     for (auto &pix : pixels_) {
-        pix.set_coordinats(-(pix.get_coordinats().first - center_.first), -(pix.get_coordinats().second - center_.second));
+        pix.setCoordinats(-(pix.getCoordinats().first - center_.first), -(pix.getCoordinats().second - center_.second));
     }
 }
 
@@ -330,20 +330,20 @@ figure::figure (uint8_t new_type,
 
     set_rotation(rotation_);
 
-    set_color(color_);
+    setColor(color_);
 
 }
 
 void figure::set_center(const std::pair<int,int> &new_center) {
     for (auto &pix : pixels_) {
-        pix.set_coordinats(pix.get_coordinats().second - center_.first, pix.get_coordinats().second - center_.second);
-        pix.set_coordinats(pix.get_coordinats().second - new_center.first, pix.get_coordinats().second - new_center.second);
+        pix.setCoordinats(pix.getCoordinats().second - center_.first, pix.getCoordinats().second - center_.second);
+        pix.setCoordinats(pix.getCoordinats().second - new_center.first, pix.getCoordinats().second - new_center.second);
     }
 
     center_ = new_center;
 }
 
-void figure::set_coordinats(const std::vector <std::pair <int32_t, int32_t> > &new_coordinates) {
+void figure::setCoordinats(const std::vector <std::pair <int32_t, int32_t> > &new_coordinates) {
     
     pixels_.clear();
 
@@ -395,11 +395,11 @@ const std::vector <pixel> figure::get_pixels() const {
     return pixels_;
 }
 
-const std::vector <std::pair <int32_t, int32_t> > figure::get_coordinats() const{
+const std::vector <std::pair <int32_t, int32_t> > figure::getCoordinats() const{
     std::vector <std::pair <int32_t, int32_t>> coordinats;
 
     for (auto &pix : pixels_) {
-        coordinats.push_back(pix.get_coordinats());
+        coordinats.push_back(pix.getCoordinats());
     }
 
     return coordinats;
