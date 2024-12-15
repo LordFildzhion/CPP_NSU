@@ -1,6 +1,5 @@
-add_library(cb_lib
-    ./circularbuffer/circularbuffer.hpp
-    ./circularbuffer/circularbuffer.cpp
+add_library(CircularBufferLibrary
+    circularbuffer.hpp
 )
 
-set_target_properties(cb_lib PROPERTIES LINKER_LANGUAGE CXX)
+set_target_properties(CircularBufferLibrary PROPERTIES LINKER_LANGUAGE CXX)
