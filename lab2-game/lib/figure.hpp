@@ -357,9 +357,15 @@ void figure::set_pixels(const std::vector <pixel> &new_pixels) {
     pixels_ = new_pixels;
 }
 
-void figure::add_pixels(const std::vector <pixel> &new_pixels);
+void figure::add_pixels(const std::vector <pixel> &new_pixels) {
+    for (auto &new_pixel : new_pixels) {
+        pixels_.push_back(new_pixel);
+    }
+}
 
-void figure::add_pixel(const pixel &new_pixel);
+void figure::add_pixel(const pixel &new_pixel) {
+    pixels_.push_back(new_pixel);
+}
 
 void figure::add_coordinates(const std::vector <std::pair <int32_t, int32_t> > &new_coordinates) {
 
