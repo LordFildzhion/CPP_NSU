@@ -13,9 +13,16 @@ enable_testing()
 
 add_executable(
     GameTests
-    figureCreaterTests.cpp
-    figureTests.cpp
-    pixelTests.cpp
+    FigureTests.cpp
+    PixelTests.cpp
+    MapTests.cpp
+    ../lib/Pixel/Pixel.cpp
+    ../lib/Pixel/Pixel.hpp
+    ../lib/Figure/Figure.hpp
+    ../lib/Figure/Figure.cpp
+    ../lib/Figure/FigureCreator.hpp
+    ../lib/Map/Map.cpp
+    ../lib/Map/Map.hpp
 )
 
 target_link_libraries(
