@@ -6,6 +6,14 @@ FetchContent_Declare(
     GIT_TAG release-1.12.1
 )
 
+FetchContent_Declare(SFML
+    GIT_REPOSITORY https://github.com/SFML/SFML.git
+    GIT_TAG 3.0.0
+    GIT_SHALLOW ON
+    EXCLUDE_FROM_ALL
+    SYSTEM)
+FetchContent_MakeAvailable(SFML)
+
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
@@ -13,16 +21,20 @@ enable_testing()
 
 add_executable(
     GameTests
-    FigureTests.cpp
-    PixelTests.cpp
-    MapTests.cpp
-    ../lib/Pixel/Pixel.cpp
-    ../lib/Pixel/Pixel.hpp
-    ../lib/Figure/Figure.hpp
-    ../lib/Figure/Figure.cpp
-    ../lib/Figure/FigureCreator.hpp
-    ../lib/Map/Map.cpp
-    ../lib/Map/Map.hpp
+    GameTests.cpp
+    GameStarterTests.cpp
+    
+    ../lib/GameStarter.hpp
+
+    ../lib/Game.hpp
+    ../lib/Textures.hpp
+    ../lib/Asteroid.hpp
+    ../lib/Bullet.hpp
+    ../lib/Mover.hpp
+    ../lib/Spawner.hpp
+
+    ../lib/Menu.hpp
+    ../lib/Button.hpp
 )
 
 target_link_libraries(
