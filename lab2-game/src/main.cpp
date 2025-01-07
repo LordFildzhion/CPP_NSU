@@ -14,8 +14,8 @@ int main() {
     window.setFramerateLimit(60);
 
     // Инициализация игрового движка
-    GameEngine engine(window);
-    engine.run();
+    GameStarter start(window);
+    start.run();
 
     return 0;
 }

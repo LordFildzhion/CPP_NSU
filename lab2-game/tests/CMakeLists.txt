@@ -6,14 +6,6 @@ FetchContent_Declare(
     GIT_TAG release-1.12.1
 )
 
-FetchContent_Declare(SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.0.0
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM)
-FetchContent_MakeAvailable(SFML)
-
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
@@ -23,7 +15,7 @@ add_executable(
     GameTests
     GameTests.cpp
     GameStarterTests.cpp
-    
+
     ../lib/GameStarter.hpp
 
     ../lib/Game.hpp
@@ -46,6 +38,13 @@ target_link_libraries(
 target_include_directories(
     GameTests
     PUBLIC ${CMAKE_SOURCE_DIR}/lib
+)
+
+target_link_libraries(
+    GameTests
+    PUBLIC
+    GameLibrary
+    SFML::Graphics
 )
 
 include(GoogleTest)

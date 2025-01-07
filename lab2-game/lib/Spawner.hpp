@@ -14,24 +14,19 @@ public:
     Spawner(
         sf::RenderWindow &window, Textures &textures,
         std::vector<Asteroid> &asteroids,
-        std::vector<Bullet> &bullets, Ship &ship, float &asteroidSpeed,
-        sf::Clock &asteroidClock, sf::Clock &bulletClock,
-        float &bulletSpeed, float &shipSpeed, float &gameSpeed,
-        float &asteroidSpawnTime, float &bulletSpawnTime, float &gameSpeedParametr
-    ): 
-    window(window), textures(textures), asteroids(asteroids), bullets(bullets), ship(ship),
-    asteroidSpeed(asteroidSpeed), asteroidClock(asteroidClock), bulletClock(bulletClock),
-    bulletSpeed(bulletSpeed), shipSpeed(shipSpeed),
-    gameSpeed(gameSpeed), asteroidSpawnTime(asteroidSpawnTime),
-    bulletSpawnTime(bulletSpawnTime), gameSpeedParametr(gameSpeedParametr) {
-        spawnAsteroid();
-        spawnBullet();
-        spawnShip();
+        std::vector<Bullet> &bullets, Ship &ship
+    ):
+    window(window), textures(textures), asteroids(asteroids), bullets(bullets),
+    ship(ship),asteroidClock(asteroidClock), bulletClock(bulletClock),
+    asteroidSpawnTime(asteroidSpawnTime), bulletSpawnTime(bulletSpawnTime){
+        bordersAsteroidSpawnPlace = 100.0f;
+        asteroidSpawnTime = 1.0f;
+        bulletSpawnTime = 0.25f;
     }
 
     void spawnAsteroid() {
         if (asteroidClock.getElapsedTime().asSeconds() > asteroidSpawnTime) {
-            asteroids.push_back(Asteroid(rand() % (window.getSize().x - 100) + 50, -100));
+            asteroids.push_back(Asteroid(rand() % size_t(window.getSize().x - bordersAsteroidSpawnPlace) + bordersAsteroidSpawnPlace, -bordersAsteroidSpawnPlace));
             asteroids.back().setRandomSpeed();
             asteroids.back().setRandomRadius();
             asteroids.back().setRandomType();
@@ -55,6 +50,14 @@ public:
         ship.setTexture(textures.getShipTextures()[ship.getType() - 1]);
     }
 
+    void addAsteroidSpawnTime(float increase) {
+        asteroidSpawnTime += increase;
+    }
+
+    void addBulletSpawnTime(float increase) {
+        bulletSpawnTime += increase;
+    }
+
 private:
 
     std::vector<Asteroid> &asteroids;
@@ -63,16 +66,13 @@ private:
 
     Textures &textures;
 
-    sf::Clock &asteroidClock;
-    sf::Clock &bulletClock;
+    sf::Clock asteroidClock;
+    sf::Clock bulletClock;
 
-    float &asteroidSpeed;
-    float &bulletSpeed;
-    float &shipSpeed;
-    float &gameSpeed;
-    float &asteroidSpawnTime;
-    float &bulletSpawnTime;
-    float &gameSpeedParametr;
+    float asteroidSpawnTime;
+    float bulletSpawnTime;
+
+    float bordersAsteroidSpawnPlace;
 
     sf::RenderWindow &window;
 };

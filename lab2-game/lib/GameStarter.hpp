@@ -7,15 +7,15 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-class GameEngine {
+class GameStarter {
 public:
-    GameEngine(sf::RenderWindow &window) : window(window) {}
+    GameStarter(sf::RenderWindow &window) : window(window) {}
 
     void run() {
-        std::cout << "GameEngine run" << std::endl;
+        std::cout << "GameStarter run" << std::endl;
 
+        // Задержка перед выходом из игры (для того, чтобы не выйти случайно при нажатии на Esc)
         const float exitTime = 0.25f;
-
         sf::Clock exitClock;
 
         Menu menu(window);

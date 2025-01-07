@@ -19,7 +19,11 @@
 
 class GamePrinter {
 public:
-    GamePrinter(sf::RenderWindow &window, Ship &ship, std::vector<Asteroid> &asteroids, std::vector<Bullet> &bullets, size_t &score) : window(window), ship(ship), asteroids(asteroids), bullets(bullets), score(score) {}
+    GamePrinter(sf::RenderWindow &window, Ship &ship, std::vector<Asteroid> &asteroids, std::vector<Bullet> &bullets, size_t &score, const std::string &fontPath):
+    window(window), ship(ship), asteroids(asteroids), bullets(bullets), score(score), fontPath(fontPath) {
+        scorePosition = {10, 10};
+        scoreSize = 30;
+    }
 
     void printGame() {
         window.draw(ship.getShape());
@@ -36,18 +40,25 @@ public:
 
     void printScore() {
         sf::Font font;
-        if (!font.openFromFile("D:\\Progs\\CC++\\CPP_NSU\\lab2-game\\rec\\arialmt.ttf")) {
+        if (!font.openFromFile(fontPath)) {
             throw std::runtime_error("Can't load font from file");
         }
-        sf::Text text(font, "Score: " + std::to_string(score), 30);
+
+        sf::Text text(font, "Score: " + std::to_string(score), scoreSize);
+
         text.setFillColor(sf::Color::White);
-        text.setPosition({10, 10});
+        text.setPosition(scorePosition);
+
         window.draw(text);
     }
 
 private:
-
     sf::RenderWindow &window;
+    std::string fontPath;
+
+    sf::Vector2f scorePosition;
+    size_t scoreSize;
+
     Ship &ship;
     std::vector<Asteroid> &asteroids;
     std::vector<Bullet> &bullets;
@@ -56,33 +67,47 @@ private:
 
 class GameOverPrinter {
 public:
-    GameOverPrinter(sf::RenderWindow &window, size_t &score) : window(window), score(score) {}
+    GameOverPrinter(sf::RenderWindow &window, size_t &score, const std::string &fontPath) : window(window), score(score), fontPath(fontPath) {
+        scoreSize = 30;
+        gameOverSize = 50;
+    }
 
     void printGameOver() {
         sf::Font font;
-        if (!font.openFromFile("D:\\Progs\\CC++\\CPP_NSU\\lab2-game\\rec\\arialmt.ttf")) {
+        if (!font.openFromFile(fontPath)) {
             throw std::runtime_error("Can't load font from file");
         }
-        sf::Text text(font, "Game over", 50);
+
+        sf::Text text(font, "Game over", gameOverSize);
+
         text.setFillColor(sf::Color::White);
-        text.setPosition({window.getSize().x / 2 - text.getGlobalBounds().size.x / 2, window.getSize().y / 2 - text.getGlobalBounds().size.y / 2});
+        text.setPosition({window.getSize().x / 2 - text.getGlobalBounds().size.x / 2,
+        window.getSize().y / 2 - text.getGlobalBounds().size.y / 2});
+
         window.draw(text);
     }
 
     void printGameOverScore() {
         sf::Font font;
-        if (!font.openFromFile("D:\\Progs\\CC++\\CPP_NSU\\lab2-game\\rec\\arialmt.ttf")) {
+        if (!font.openFromFile(fontPath)) {
             throw std::runtime_error("Can't load font from file");
         }
-        sf::Text scoreText(font, "Score: " + std::to_string(score), 30);
+
+        sf::Text scoreText(font, "Score: " + std::to_string(score), scoreSize);
+
         scoreText.setFillColor(sf::Color::White);
-        scoreText.setPosition({window.getSize().x / 2 - scoreText.getGlobalBounds().size.x / 2, window.getSize().y / 2 - scoreText.getGlobalBounds().size.y / 2 + 50});
+        scoreText.setPosition({window.getSize().x / 2 - scoreText.getGlobalBounds().size.x / 2,
+        window.getSize().y / 2 - scoreText.getGlobalBounds().size.y / 2 + gameOverSize});
+
         window.draw(scoreText);
     }
 
 private:
     sf::RenderWindow &window;
+    std::string fontPath;
     size_t &score;
+    size_t scoreSize;
+    size_t gameOverSize;
 };
 
 // Класс игры
@@ -100,16 +125,8 @@ private:
 
     Textures textures;
 
-    sf::Clock asteroidClock;
-    sf::Clock bulletClock;
-
     size_t score;
     float gameSpeed;
-    float asteroidSpeed;
-    float bulletSpeed;
-    float shipSpeed;
-    float asteroidSpawnTime;
-    float bulletSpawnTime;
     float gameSpeedParametr;
 
     bool isGameOver;
@@ -123,6 +140,7 @@ private:
 
     void increaseGameSpeed();
     void increaseScore();
+    void increaseAsteroidSpawnTime();
 
     void checkAsteroidShipCollision();
     void checkAsteroidBulletCollision();
@@ -133,11 +151,12 @@ private:
     void gameOver();
     void gameOverCheck();
 
-    void moveBulletToAsteroid(Bullet &bullet, Asteroid &asteroid);
-    void moveAsteroidOutOfBounds(Asteroid &asteroid);
-    void moveBulletOutOfBounds(Bullet &bullet);
-    void moveAsteroidToShip(Asteroid &asteroid);
+    size_t getScore();
 };
+
+size_t Game::getScore() {
+    return score;
+}
 
 void Game::checkCollisions() {
     checkAsteroidShipCollision();
@@ -147,11 +166,15 @@ void Game::checkCollisions() {
 }
 
 void Game::increaseGameSpeed() {
-    gameSpeed += score / gameSpeedParametr;
+    mover.addGameSpeed(score / gameSpeedParametr);
 }
 
 void Game::increaseScore() {
     score++;
+}
+
+void Game::increaseAsteroidSpawnTime() {
+    spawner.addAsteroidSpawnTime(-0.01f);
 }
 
 void Game::checkAsteroidShipCollision() {
@@ -173,7 +196,7 @@ void Game::checkAsteroidBulletCollision() {
                 bullets.erase(bullets.begin() + j);
                 increaseScore();
                 increaseGameSpeed();
-                asteroidSpawnTime -= 0.01f;
+                increaseAsteroidSpawnTime();
                 break;
             }
         }
@@ -217,21 +240,20 @@ void Game::gameOverCheck() {
 }
 
 Game::Game(sf::RenderWindow &window):
-    window(window), ship(), asteroids(), bullets(), textures(), asteroidClock(), bulletClock(),
-    score(0), isGameOver(false), asteroidSpeed(2.0f), bulletSpeed(5.0f), shipSpeed(5.0f),
-    gameSpeed(1.0f), asteroidSpawnTime(1.0f), bulletSpawnTime(0.25f), gameSpeedParametr(1000.0f),
+    window(window), ship(), asteroids(), bullets(), textures(),
 
-    mover(window, textures, asteroids, bullets, ship, asteroidSpeed,
-    bulletClock, bulletSpeed, shipSpeed, gameSpeed, asteroidSpawnTime, bulletSpawnTime, gameSpeedParametr),
+    mover(window, asteroids, bullets, ship, gameSpeed),
     
-    spawner(window, textures, asteroids, bullets, ship, asteroidSpeed, asteroidClock,
-    bulletClock, bulletSpeed, shipSpeed, gameSpeed, asteroidSpawnTime, bulletSpawnTime, gameSpeedParametr),
+    spawner(window, textures, asteroids, bullets, ship),
 
-    printer(window, ship, asteroids, bullets, score),
+    printer(window, ship, asteroids, bullets, score, "..\\rec\\arialmt.ttf"),
 
-    gameOverPrinter(window, score) {
-    
-    srand(time(nullptr));
+    gameOverPrinter(window, score, "..\\rec\\arialmt.ttf") {
+        srand(time(nullptr));
+        score = 0;
+        gameSpeed = 1.0f;
+        gameSpeedParametr = 1000.0f;
+        isGameOver = false;
 }
 
 void Game::run() {
@@ -273,24 +295,6 @@ void Game::run() {
 
         window.display();
     }
-}
-
-void Game::moveBulletToAsteroid(Bullet &bullet, Asteroid &asteroid) {
-    bullet.setPosition(asteroid.getPosition().x, asteroid.getPosition().y);
-}
-
-void Game::moveAsteroidOutOfBounds(Asteroid &asteroid) {
-    asteroid.setPosition(0, window.getSize().y + 1);
-    
-}
-
-void Game::moveBulletOutOfBounds(Bullet &bullet) {
-    bullet.setPosition(0, -1);
-    
-}
-
-void Game::moveAsteroidToShip(Asteroid &asteroid) {
-    asteroid.setPosition(ship.getPosition().x, ship.getPosition().y);
 }
 
 #endif // GAME_HPP

@@ -5,7 +5,7 @@
 
 class Button {
 public:
-    Button(sf::RenderWindow &window, const std::string &message) : window(window), font("D:\\Progs\\CC++\\CPP_NSU\\lab2-game\\rec\\arialmt.ttf"), text(font, message) {
+    Button(sf::RenderWindow &window, const std::string &message) : window(window), font("..\\rec\\arialmt.ttf"), text(font, message) {
         size = 30;
         text.setFont(font);
         text.setCharacterSize(size);

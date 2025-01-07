@@ -17,7 +17,7 @@ public:
     void loadShipTexture() {
         for (size_t i = 1; i <= 2; i++) {
             sf::Texture shipTexture;
-            if (!shipTexture.loadFromFile("D:\\Progs\\CC++\\CPP_NSU\\lab2-game\\rec\\ship" + std::to_string(i) + ".png")) {
+            if (!shipTexture.loadFromFile("..\\rec\\ship" + std::to_string(i) + ".png")) {
                 throw std::runtime_error("Can't load ship texture from file");
             }
 
@@ -28,7 +28,7 @@ public:
     void loadAsteroidTexture() {
         for (size_t i = 1; i <= 3; i++) {
             sf::Texture asteroidTexture;
-            if (!asteroidTexture.loadFromFile("D:\\Progs\\CC++\\CPP_NSU\\lab2-game\\rec\\asteroid" + std::to_string(i) + ".png")) {
+            if (!asteroidTexture.loadFromFile("..\\rec\\asteroid" + std::to_string(i) + ".png")) {
                 throw std::runtime_error("Can't load asteroid texture from file");
             }
 
@@ -37,7 +37,7 @@ public:
     }
 
     void loadBulletTexture() {
-        if (!bulletTexture.loadFromFile("D:\\Progs\\CC++\\CPP_NSU\\lab2-game\\rec\\bullet.png")) {
+        if (!bulletTexture.loadFromFile("..\\rec\\bullet.png")) {
             throw std::runtime_error("Can't load bullet texture from file");
         }
     }

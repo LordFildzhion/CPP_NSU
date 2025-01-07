@@ -11,10 +11,10 @@
 class Menu {
 public:
     Menu(sf::RenderWindow &window):
-    window(window), font("D:\\Progs\\CC++\\CPP_NSU\\lab2-game\\rec\\arialmt.ttf"),
+    window(window), font("..\\rec\\arialmt.ttf"),
     lable(font), startButton(window, "Start"), exitButton(window, "Exit") {
 
-        if (!font.openFromFile("D:\\Progs\\CC++\\CPP_NSU\\lab2-game\\rec\\arialmt.ttf")) {
+        if (!font.openFromFile("..\\rec\\arialmt.ttf")) {
             throw std::runtime_error("Can't load font from file");
         }
 

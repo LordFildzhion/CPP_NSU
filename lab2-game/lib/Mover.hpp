@@ -6,24 +6,21 @@
 #include "Asteroid.hpp"
 #include "Bullet.hpp"
 #include "Ship.hpp"
-#include "Textures.hpp"
 
 class Mover {
 public:
     Mover(
-        sf::RenderWindow &window, Textures &textures,
+        sf::RenderWindow &window,
         std::vector<Asteroid> &asteroids,
         std::vector<Bullet> &bullets, Ship &ship,
-        float &asteroidSpeed, sf::Clock &bulletClock,
-        float &bulletSpeed, float &shipSpeed,
-        float &gameSpeed, float &asteroidSpawnTime,
-        float &bulletSpawnTime, float &gameSpeedParametr
+        float &gameSpeed
     ):
-    window(window), textures(textures), asteroids(asteroids), bullets(bullets), ship(ship),
-    asteroidSpeed(asteroidSpeed), bulletClock(bulletClock),
-    bulletSpeed(bulletSpeed), shipSpeed(shipSpeed),
-    gameSpeed(gameSpeed), asteroidSpawnTime(asteroidSpawnTime),
-    bulletSpawnTime(bulletSpawnTime), gameSpeedParametr(gameSpeedParametr) {}
+    window(window), asteroids(asteroids), bullets(bullets), ship(ship),
+    gameSpeed(gameSpeed) {
+        shipSpeed = 5.0f;
+        bulletSpeed = 5.0f;
+        asteroidSpeed = 2.0f;
+    }
 
     void moveBullet() {
         for (auto &bullet : bullets) {
@@ -38,15 +35,22 @@ public:
     }
 
     void moveShip() {
+        size_t shipMoveBordersLeft = 0;
+        size_t shipMoveBordersRight = window.getSize().x - ship.getShape().getRadius() * 2;
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)
-        && ship.getPosition().x > 0) {
+        && ship.getPosition().x > shipMoveBordersLeft) {
             ship.move(-shipSpeed * gameSpeed);
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)
-        && ship.getPosition().x < window.getSize().x - ship.getShape().getRadius() * 2) {
+        && ship.getPosition().x < shipMoveBordersRight) {
             ship.move(shipSpeed * gameSpeed);
         }
+    }
+
+    void addGameSpeed(float increase) {
+        gameSpeed += increase;
     }
 
 private:
@@ -54,17 +58,10 @@ private:
     std::vector<Bullet> &bullets;
     Ship &ship;
 
-    Textures &textures;
-
-    sf::Clock &bulletClock;
-
-    float &asteroidSpeed;
-    float &bulletSpeed;
-    float &shipSpeed;
+    float asteroidSpeed;
+    float bulletSpeed;
+    float shipSpeed;
     float &gameSpeed;
-    float &asteroidSpawnTime;
-    float &bulletSpawnTime;
-    float &gameSpeedParametr;
 
     sf::RenderWindow &window;
 };
