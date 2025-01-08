@@ -15,18 +15,6 @@ add_executable(
     GameTests
     GameTests.cpp
     GameStarterTests.cpp
-
-    ../lib/GameStarter.hpp
-
-    ../lib/Game.hpp
-    ../lib/Textures.hpp
-    ../lib/Asteroid.hpp
-    ../lib/Bullet.hpp
-    ../lib/Mover.hpp
-    ../lib/Spawner.hpp
-
-    ../lib/Menu.hpp
-    ../lib/Button.hpp
 )
 
 target_link_libraries(

@@ -32,8 +32,7 @@ public:
 
     bool isExitButtonPressed();
 
-private:
-
+protected:
     void createButton(Button &button, const std::string &message, float x, float y, const sf::Color &fillColor, const float size);
 
     void createLabel(const std::string &message, float x, float y, const sf::Color &fillColor, sf::Font font, const float size);
