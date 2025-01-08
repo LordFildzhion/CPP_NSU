@@ -5,49 +5,67 @@
 
 class Bullet {
 public:
-    Bullet(sf::Texture &texture, float x, float y) : shape(10.0f, 5) {
-        scatter = (rand() % 5) - (rand() % 5);
+    Bullet(sf::Texture &texture, float x, float y);
 
-        shape.setPosition({x + scatter, y});
-        shape.setTexture(&texture);
-    }
+    void move(float dy);
 
-    void move(float dy) {
-        shape.move({0, dy});
-    }
+    sf::CircleShape getShape();
 
-    sf::CircleShape getShape() {
-        return shape;
-    }
+    const sf::CircleShape& getShape() const;
 
-    const sf::CircleShape& getShape() const {
-        return shape;
-    }
+    sf::Vector2f getPosition();
 
-    sf::Vector2f getPosition() {
-        return shape.getPosition();
-    }
+    void setPosition(float x, float y);
 
-    void setPosition(float x, float y) {
-        shape.setPosition({x, y});
-    }
+    void setTexture(sf::Texture &texture);
 
-    void setTexture(sf::Texture &texture) {
-        shape.setTexture(&texture);
-    }
+    void setScatter(size_t scatter);
 
-    void setScatter(size_t scatter) {
-        this->scatter = scatter;
-        shape.setPosition({shape.getPosition().x + scatter, shape.getPosition().y});
-    }
-
-    size_t getScatter() {
-        return scatter;
-    }
+    size_t getScatter();
 
 private:
     sf::CircleShape shape;
     int8_t scatter;
 };
+
+Bullet::Bullet(sf::Texture &texture, float x, float y) : shape(10.0f, 5) {
+    scatter = (rand() % 10) - (rand() % 10);
+
+    shape.setPosition({x + scatter, y});
+    shape.setTexture(&texture);
+}
+
+void Bullet::move(float dy) {
+    shape.move({0, dy});
+}
+
+sf::CircleShape Bullet::getShape() {
+    return shape;
+}
+
+const sf::CircleShape& Bullet::getShape() const {
+    return shape;
+}
+
+sf::Vector2f Bullet::getPosition() {
+    return shape.getPosition();
+}
+
+void Bullet::setPosition(float x, float y) {
+    shape.setPosition({x, y});
+}
+
+void Bullet::setTexture(sf::Texture &texture) {
+    shape.setTexture(&texture);
+}
+
+void Bullet::setScatter(size_t scatter) {
+    this->scatter = scatter;
+    shape.setPosition({shape.getPosition().x + scatter, shape.getPosition().y});
+}
+
+size_t Bullet::getScatter() {
+    return scatter;
+}
 
 #endif // BULLET_HPP

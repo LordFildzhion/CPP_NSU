@@ -8,59 +8,35 @@
 
 #include "Button.hpp"
 
+class MenuException : public std::exception {
+public:
+    MenuException(const std::string &message) : message(message) {}
+
+    const char *what() const noexcept override;
+
+private:
+    std::string message;
+};
+
+const char* MenuException::what() const noexcept {
+    return message.c_str();
+}
+
 class Menu {
 public:
-    Menu(sf::RenderWindow &window):
-    window(window), font("..\\rec\\arialmt.ttf"),
-    lable(font), startButton(window, "Start"), exitButton(window, "Exit") {
+    Menu(sf::RenderWindow &window);
 
-        if (!font.openFromFile("..\\rec\\arialmt.ttf")) {
-            throw std::runtime_error("Can't load font from file");
-        }
+    void draw();
 
-        lableSize = 100.0f;
-        startButtonSize = 75.0f;
-        exitButtonSize = 75.0f;
+    bool isStartButtonPressed();
 
-        createLabel("Astro Shooter", window.getSize().x / 2, window.getSize().y / 2, sf::Color::Red, font, lableSize);
-        lable.setPosition({window.getSize().x / 2 - lable.getGlobalBounds().size.x / 2, 100.0f});
-
-        createButton(startButton, "Start", lable.getPosition().x + lable.getGlobalBounds().size.x / 3, lable.getPosition().y + window.getSize().y / 3, sf::Color::Transparent, sf::Color::Green, 2, startButtonSize);
-
-        createButton(exitButton, "Exit", startButton.getPosition().x, startButton.getPosition().y + window.getSize().y / 7, sf::Color::Transparent, sf::Color::Blue, 2, exitButtonSize);
-    }
-
-    void draw() {
-        window.draw(lable);
-        startButton.draw();
-        exitButton.draw();
-    }
-
-    bool isStartButtonPressed() {
-        return startButton.isPressed();
-    }
-
-    bool isExitButtonPressed() {
-        return exitButton.isPressed();
-    }
+    bool isExitButtonPressed();
 
 private:
 
-    void createButton(Button &button, const std::string &message, float x, float y, const sf::Color &fillColor, const sf::Color &outlineColor, float outlineThickness, const float size) {
-        button.setMessage(message);
-        button.setPosition(x, y);
-        button.setFillColor(fillColor);
-        button.setOutlineColor(outlineColor);
-        button.setOutlineThickness(outlineThickness);
-        button.setSize(size);
-    }
+    void createButton(Button &button, const std::string &message, float x, float y, const sf::Color &fillColor, const float size);
 
-    void createLabel(const std::string &message, float x, float y, const sf::Color &fillColor, sf::Font font, const float size) {
-        lable.setString(message);
-        lable.setPosition({x, y});
-        lable.setFillColor(fillColor);
-        lable.setCharacterSize(size);
-    }
+    void createLabel(const std::string &message, float x, float y, const sf::Color &fillColor, sf::Font font, const float size);
 
     sf::RenderWindow &window;
     sf::Font font;
@@ -74,4 +50,51 @@ private:
     Button exitButton;
 };
 
-#endif
+Menu::Menu(sf::RenderWindow &window):
+window(window), font("..\\rec\\arialmt.ttf"), lable(font),
+startButton(window, "Start"), exitButton(window, "Exit") {
+    if (!font.openFromFile("..\\rec\\arialmt.ttf")) {
+        throw MenuException("ERROR!!!\nMENU::MENU:: Can't open font file\n");
+    }
+
+    lableSize = 100.0f;
+    startButtonSize = 75.0f;
+    exitButtonSize = 75.0f;
+
+    createLabel("Astro Shooter", window.getSize().x / 2, window.getSize().y / 2, sf::Color::Red, font, lableSize);
+    lable.setPosition({window.getSize().x / 2 - lable.getGlobalBounds().size.x / 2, lableSize});
+
+    createButton(startButton, "Start", lable.getPosition().x + lable.getGlobalBounds().size.x / 3, lable.getPosition().y + window.getSize().y / 3, sf::Color::Green, startButtonSize);
+
+    createButton(exitButton, "Exit", startButton.getPosition().x, startButton.getPosition().y + window.getSize().y / 7, sf::Color::Blue, exitButtonSize);
+}
+
+void Menu::draw() {
+    window.draw(lable);
+    startButton.draw();
+    exitButton.draw();
+}
+
+bool Menu::isStartButtonPressed() {
+    return startButton.isPressed();
+}
+
+bool Menu::isExitButtonPressed() {
+    return exitButton.isPressed();
+}
+
+void Menu::createButton(Button &button, const std::string &message, float x, float y, const sf::Color &fillColor, const float size) {
+    button.setMessage(message);
+    button.setPosition(x, y);
+    button.setFillColor(fillColor);
+    button.setSize(size);
+}
+
+void Menu::createLabel(const std::string &message, float x, float y, const sf::Color &fillColor, sf::Font font, const float size) {
+    lable.setString(message);
+    lable.setPosition({x, y});
+    lable.setFillColor(fillColor);
+    lable.setCharacterSize(size);
+}
+
+#endif // MENU_HPP

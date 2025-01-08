@@ -5,78 +5,97 @@
 
 class Asteroid {
 public:
-    Asteroid(float x, float y) : shape(20.0f) {
-        shape.setPosition({x, y});
-        speed = 2.0f;
-        type = 1;
-    }
+    Asteroid(float x, float y);
 
-    void move(float dy) {
-        shape.move({0, dy});
-    }
+    void move(float dy);
 
-    sf::CircleShape getShape() {
-        return shape;
-    }
+    sf::CircleShape getShape();
 
-    const sf::CircleShape& getShape() const {
-        return shape;
-    }
+    const sf::CircleShape& getShape() const;
 
-    sf::Vector2f getPosition() {
-        return shape.getPosition();
-    }
+    sf::Vector2f getPosition();
 
-    void setPosition(float x, float y) {
-        shape.setPosition({x, y});
-    }
+    void setPosition(float x, float y);
 
-    void setSpeed(float speed) {
-        this->speed = speed;
-    }
+    void setRadius(float radius);
 
-    float getSpeed() {
-        return speed;
-    }
+    float getRadius();
 
-    void setRadius(float radius) {
-        shape.setRadius(radius);
-    }
+    void setRandomRadius();
 
-    float getRadius() {
-        return shape.getRadius();
-    }
+    void setType(size_t type);
 
-    void setRandomSpeed() {
-        speed = rand() % 5 + 1;
-    }
+    void setRandomAsteroid();
 
-    void setRandomRadius() {
-        shape.setRadius(rand() % 20 + 10);
-    }
+    size_t getType();
 
-    void setType(size_t type) {
-        this->type = type;
-    }
+    void setRandomType();
 
-    size_t getType() {
-        return type;
-    }
-
-    void setRandomType() {
-        type = rand() % 3 + 1;
-    }
-
-    void setTexture(sf::Texture &texture) {
-        this->texture = texture;
-        shape.setTexture(&texture);
-    }
+    void setTexture(sf::Texture &texture);
 
 private:
     sf::CircleShape shape;
-    float speed;
     size_t type;
     sf::Texture texture;
 };
+
+Asteroid::Asteroid(float x, float y) : shape(20.0f) {
+    shape.setPosition({x, y});
+    type = 1;
+}
+
+void Asteroid::move(float dy) {
+    shape.move({0, dy});
+}
+
+sf::CircleShape Asteroid::getShape() {
+    return shape;
+}
+
+const sf::CircleShape& Asteroid::getShape() const {
+    return shape;
+}
+
+sf::Vector2f Asteroid::getPosition() {
+    return shape.getPosition();
+}
+
+void Asteroid::setPosition(float x, float y) {
+    shape.setPosition({x, y});
+}
+
+void Asteroid::setRadius(float radius) {
+    shape.setRadius(radius);
+}
+
+float Asteroid::getRadius() {
+    return shape.getRadius();
+}
+
+void Asteroid::setRandomRadius() {
+    shape.setRadius(rand() % 20 + 10);
+}
+
+void Asteroid::setType(size_t type) {
+    this->type = type;
+}
+
+void Asteroid::setRandomAsteroid() {
+    setRandomRadius();
+    setRandomType();
+}
+
+size_t Asteroid::getType() {
+    return type;
+}
+
+void Asteroid::setRandomType() {
+    type = rand() % 3 + 1;
+}
+
+void Asteroid::setTexture(sf::Texture &texture) {
+    this->texture = texture;
+    shape.setTexture(&texture);
+}
 
 #endif // ASTEROID_HPP

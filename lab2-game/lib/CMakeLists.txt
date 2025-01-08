@@ -6,8 +6,10 @@ add_library(
     Textures.hpp
     Asteroid.hpp
     Bullet.hpp
+    Ship.hpp
     Mover.hpp
     Spawner.hpp
+    GamePrinter.hpp
 
     Menu.hpp
     Button.hpp

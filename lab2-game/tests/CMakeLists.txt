@@ -33,18 +33,14 @@ target_link_libraries(
     GameTests
     PUBLIC
     GTest::gtest_main
+    GameLibrary
+    SFML::Graphics
 )
 
 target_include_directories(
     GameTests
-    PUBLIC ${CMAKE_SOURCE_DIR}/lib
-)
-
-target_link_libraries(
-    GameTests
     PUBLIC
-    GameLibrary
-    SFML::Graphics
+    ${CMAKE_SOURCE_DIR}/lib
 )
 
 include(GoogleTest)
