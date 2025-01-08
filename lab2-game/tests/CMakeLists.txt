@@ -13,8 +13,11 @@ enable_testing()
 
 add_executable(
     GameTests
-    GameTests.cpp
+    MenuTests.cpp
     GameStarterTests.cpp
+    GameTests.cpp
+    SpawnerTests.cpp
+    MoverTests.cpp
 )
 
 target_link_libraries(

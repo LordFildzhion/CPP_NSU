@@ -20,7 +20,7 @@ public:
 
     void moveAsteroids();
 
-    void moveShip();
+    void moveShip(sf::Keyboard::Key key);
 
     void addGameSpeed(float increase);
 
@@ -60,16 +60,16 @@ void Mover::moveAsteroids() {
     }
 }
 
-void Mover::moveShip() {
+void Mover::moveShip(sf::Keyboard::Key key = sf::Keyboard::Key::Unknown) {
     size_t shipMoveBordersLeft = 0;
     size_t shipMoveBordersRight = window.getSize().x - ship.getShape().getRadius() * 2;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || key == sf::Keyboard::Key::Left)
     && ship.getPosition().x > shipMoveBordersLeft) {
         ship.move(-shipSpeed * gameSpeed);
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)
+    if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || key == sf::Keyboard::Key::Right)
     && ship.getPosition().x < shipMoveBordersRight) {
         ship.move(shipSpeed * gameSpeed);
     }

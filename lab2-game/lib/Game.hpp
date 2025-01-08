@@ -25,7 +25,7 @@ public:
     Game(sf::RenderWindow &window);
     void run();
 
-private:
+protected:
     sf::RenderWindow &window;
 
     Ship ship;

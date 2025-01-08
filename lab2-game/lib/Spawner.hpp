@@ -19,7 +19,7 @@ public:
 
     void spawnAsteroid();
 
-    void spawnBullet();
+    void spawnBullet(sf::Keyboard::Key key = sf::Keyboard::Key::Escape);
 
     void spawnShip();
 
@@ -27,7 +27,7 @@ public:
 
     void addBulletSpawnTime(float increase);
 
-private:
+protected:
 
     std::vector<Asteroid> &asteroids;
     std::vector<Bullet> &bullets;
@@ -73,8 +73,8 @@ void Spawner::spawnAsteroid() {
     }
 }
 
-void Spawner::spawnBullet() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
+void Spawner::spawnBullet(sf::Keyboard::Key key) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) || key == sf::Keyboard::Key::Space) {
         if (bulletClock.getElapsedTime().asSeconds() > bulletSpawnTime) {
             bullets.push_back(Bullet(textures.getBulletTexture(), ship.getPosition().x + ship.getShape().getRadius(), ship.getPosition().y));
             bulletClock.restart();

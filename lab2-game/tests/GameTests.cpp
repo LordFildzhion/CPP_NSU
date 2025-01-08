@@ -1,67 +1,198 @@
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
+#include "Game.hpp"
+#include "Ship.hpp"
+#include "Asteroid.hpp"
+#include "Bullet.hpp"
+#include "Textures.hpp"
 
-#include "Menu.hpp"
-#include "Button.hpp"
-
-class TestMenu : private Menu {
+// Mock classes for dependencies
+class MockWindow : public sf::RenderWindow {
 public:
-    TestMenu(sf::RenderWindow &window) : Menu(window) {}
+    bool isOpen() const { return true; }
+    bool pollEvent(sf::Event& event) { return false; }
+    void clear() {}
+    void display() {}
+};
 
-    Button getStartButton() {
-        return startButton;
+class MockShip : public Ship {
+public:
+    sf::FloatRect getGlobalBounds() const { return sf::FloatRect({0, 0}, {50, 50}); }
+};
+
+class MockAsteroid : public Asteroid {
+public:
+    MockAsteroid() : Asteroid(50, 50) {}
+
+    MockAsteroid(float x, float y) : Asteroid(x, y) {}
+
+    sf::FloatRect getGlobalBounds() const { return sf::FloatRect({0, 0}, {50, 50}); }
+    sf::Vector2f getPosition() const { return sf::Vector2f({0, 0}); }
+};
+
+class MockBullet : public Bullet {
+public:
+
+    MockBullet(sf::Texture &texture, float x, float y) : Bullet(texture, x, y) {}
+
+    sf::FloatRect getGlobalBounds() const { return sf::FloatRect({0, 0}, {10, 10}); }
+    sf::Vector2f getPosition() const { return sf::Vector2f({0, 0}); }
+};
+
+class MockGame : public Game {
+public:
+    MockGame(sf::RenderWindow &window) : Game(window) {}
+
+    void addAsteroid(Asteroid &asteroid) {
+        asteroids.push_back(asteroid);
     }
 
-    Button getExitButton() {
-        return exitButton;
+    void addBullet(Bullet &bullet) {
+        bullets.push_back(bullet);
     }
 
-    void draw() {
-        Menu::draw();
+    std::vector<Asteroid> &getAsteroids() {
+        return asteroids;
     }
 
-    void createButton(Button &button, const std::string &message, float x, float y, const sf::Color &fillColor, const float size) {
-        Menu::createButton(button, message, x, y, fillColor, size);
+    std::vector<Bullet> &getBullets() {
+        return bullets;
     }
 
-    void createLabel(const std::string &message, float x, float y, const sf::Color &fillColor, sf::Font font, const float size) {
-        Menu::createLabel(message, x, y, fillColor, font, size);
+    Ship &getShip() {
+        return ship;
+    }
+
+    int getScore() {
+        return score;
+    }
+
+    float getGameSpeed() {
+        return gameSpeed;
+    }
+
+    bool checkGameOver() {
+        return isGameOver;
+    }
+
+    void increaseScore() {
+        Game::increaseScore();
+    }
+
+    void increaseGameSpeed() {
+        Game::increaseGameSpeed();
+    }
+
+    void checkAsteroidShipCollision() {
+        Game::checkAsteroidShipCollision();
+    }
+
+    void checkAsteroidBulletCollision() {
+        Game::checkAsteroidBulletCollision();
+    }
+
+    void checkAsteroidOutOfBounds() {
+        Game::checkAsteroidOutOfBounds();
+    }
+
+    void checkBulletOutOfBounds() {
+        Game::checkBulletOutOfBounds();
+    }
+
+    void setGameOver(bool value) {
+        isGameOver = value;
+    }
+
+    void setGameSpeed(float value) {
+        gameSpeed = value;
+    }
+
+    void setScore(int value) {
+        score = value;
+    }
+
+    void setAsteroids(std::vector<Asteroid> value) {
+        asteroids = value;
+    }
+
+    void setBullets(std::vector<Bullet> value) {
+        bullets = value;
     }
 };
 
+TEST(GameTest, InitialState) {
+    MockWindow window;
+    MockGame game(window);
 
-class MenuTest : public ::testing::Test {
-protected:
-    sf::RenderWindow window;
-    TestMenu* menu;
-
-    void SetUp() override {
-        window.create(sf::VideoMode({800, 600}), "Test Window");
-        menu = new TestMenu(window);
-    }
-
-    void TearDown() override {
-        delete menu;
-        window.close();
-    }
-};
-
-TEST_F(MenuTest, MenuInitialization) {
-    EXPECT_NO_THROW(Menu menu(window));
+    EXPECT_EQ(game.getScore(), 0);
+    EXPECT_EQ(game.getGameSpeed(), 1.0f);
+    EXPECT_FALSE(game.checkGameOver());
 }
 
-TEST_F(MenuTest, DrawMenu) {
-    EXPECT_NO_THROW(menu->draw());
+TEST(GameTest, IncreaseScore) {
+    MockWindow window;
+    MockGame game(window);
+
+    game.increaseScore();
+    EXPECT_EQ(game.getScore(), 1);
 }
 
-TEST_F(MenuTest, CreateButton) {
-    Button testButton(window, "Test");
-    EXPECT_NO_THROW(menu->createButton(testButton, "Test", 100, 100, sf::Color::White, 50));
+TEST(GameTest, IncreaseGameSpeed) {
+    MockWindow window;
+    MockGame game(window);
+
+    game.increaseGameSpeed();
+    EXPECT_GT(game.getGameSpeed(), 0.0f);
 }
 
-TEST_F(MenuTest, CreateLabel) {
-    sf::Font font;
-    EXPECT_NO_THROW(menu->createLabel("Test", 100, 100, sf::Color::White, font, 50));
+TEST(GameTest, CheckAsteroidShipCollision) {
+    MockWindow window;
+    MockGame game(window);
+
+    MockAsteroid asteroid;
+    asteroid.setPosition(game.getShip().getPosition().x, game.getShip().getPosition().y);
+    game.addAsteroid(asteroid);
+
+    game.checkAsteroidShipCollision();
+    EXPECT_TRUE(game.checkGameOver());
+}
+
+TEST(GameTest, CheckAsteroidBulletCollision) {
+    MockWindow window;
+    MockGame game(window);
+
+    sf::Texture texture({10, 10});
+    MockAsteroid asteroid(10, 10);
+    MockBullet bullet(texture, 10, 10);
+    game.addAsteroid(asteroid);
+    game.addBullet(bullet);
+
+    game.checkAsteroidBulletCollision();
+    EXPECT_EQ(game.getAsteroids().size(), 0);
+    EXPECT_EQ(game.getBullets().size(), 0);
+    EXPECT_EQ(game.getScore(), 1);
+}
+
+TEST(GameTest, CheckAsteroidOutOfBounds) {
+    MockWindow window;
+    MockGame game(window);
+
+    MockAsteroid asteroid;
+    game.addAsteroid(asteroid);
+
+    game.checkAsteroidOutOfBounds();
+    EXPECT_EQ(game.getAsteroids().size(), 0);
+}
+
+TEST(GameTest, CheckBulletOutOfBounds) {
+    MockWindow window;
+    MockGame game(window);
+    sf::Texture texture({10, 10});
+    MockBullet bullet(texture, -100, -100);
+    game.addBullet(bullet);
+
+    game.checkBulletOutOfBounds();
+    EXPECT_EQ(game.getBullets().size(), 0);
 }
 
 int main(int argc, char **argv) {
