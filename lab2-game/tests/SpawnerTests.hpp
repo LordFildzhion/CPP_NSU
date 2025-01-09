@@ -1,3 +1,6 @@
+#ifndef SPAWNER_TESTS_HPP
+#define SPAWNER_TESTS_HPP
+
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -135,3 +138,5 @@ TEST(SpawnerTest, BordersAsteroidSpawnPlace) {
 
     EXPECT_EQ(spawner.getBordersAsteroidSpawnPlace(), SpawnerValues::DEFAULT_BORDERS_ASTEROID_SPAWN_PLACE);
 }
+
+#endif // SPAWNER_TESTS_HPP

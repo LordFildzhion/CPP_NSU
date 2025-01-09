@@ -1,3 +1,6 @@
+#ifndef MOVER_TESTS_HPP
+#define MOVER_TESTS_HPP
+
 #include <vector>
 
 #include <gtest/gtest.h>
@@ -67,3 +70,5 @@ TEST_F(MoverTest, AddGameSpeed) {
     mover->addGameSpeed(0.5f);
     EXPECT_GT(gameSpeed, initialSpeed);
 }
+
+#endif  // MOVER_TESTS_HPP

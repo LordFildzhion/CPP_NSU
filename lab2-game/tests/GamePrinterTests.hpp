@@ -1,3 +1,6 @@
+#ifndef GAME_PRINTER_TESTS_HPP
+#define GAME_PRINTER_TESTS_HPP
+
 #include <vector>
 #include <string>
 
@@ -70,3 +73,5 @@ TEST(GamePrinterTest, PrintGameTest) {
 
     EXPECT_NO_THROW(gamePrinter.printGame());
 }
+
+#endif  // GAME_PRINTER_TESTS_HPP

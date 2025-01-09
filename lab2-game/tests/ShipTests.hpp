@@ -1,4 +1,9 @@
+#ifndef SHIP_TESTS_HPP
+#define SHIP_TESTS_HPP
+
 #include <gtest/gtest.h>
+#include <SFML/Graphics.hpp>
+
 #include "Ship.hpp"
 
 TEST(ShipTests, DefaultConstructor) {
@@ -48,3 +53,5 @@ TEST(ShipTests, SetTexture) {
     ship.setTexture(texture);
     EXPECT_EQ(ship.getShape().getTexture(), &texture);
 }
+
+#endif  // SHIP_TESTS_HPP

@@ -1,3 +1,6 @@
+#ifndef GAME_STARTER_TESTS_HPP
+#define GAME_STARTER_TESTS_HPP
+
 #include <gtest/gtest.h>
 
 #include "GameStarter.hpp"
@@ -7,3 +10,5 @@ TEST(GameStarter, GameStarterRun) {
     GameStarter GameStarter(window);
     GameStarter.run();
 }
+
+#endif  // GAME_STARTER_TESTS_HPP

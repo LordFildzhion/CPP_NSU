@@ -17,6 +17,12 @@ add_library(
 
     Menu.hpp
     Button.hpp
+
+    Background.hpp
+    BackgroundPrinter.hpp
+    BackgroundMover.hpp
+    BackgroundSpawner.hpp
+    BackgroundElement.hpp
 )
 
 set_target_properties(GameLibrary PROPERTIES LINKER_LANGUAGE CXX)

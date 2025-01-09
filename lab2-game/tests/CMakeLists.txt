@@ -28,6 +28,12 @@ add_executable(
     MoverTests.hpp
     GamePrinterTests.hpp
     TexturesTests.hpp
+
+    BackgroundTests.hpp
+    BackgroundElementTests.hpp
+    BackgroundSpawnerTests.hpp
+    BackGroundMoverTests.hpp
+    BackgroundPrinterTests.hpp
 )
 
 target_link_libraries(

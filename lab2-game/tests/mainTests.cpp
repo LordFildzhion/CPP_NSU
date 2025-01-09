@@ -16,6 +16,12 @@
 
 #include "GamePrinterTests.hpp"
 
+#include "BackgroundTests.hpp"
+#include "BackgroundElementTests.hpp"
+#include "BackgroundSpawnerTests.hpp"
+#include "BackGroundMoverTests.hpp"
+#include "BackgroundPrinterTests.hpp"
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

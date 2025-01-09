@@ -17,6 +17,7 @@
 #include "Mover.hpp"
 #include "Spawner.hpp"
 #include "GamePrinter.hpp"
+#include "Background.hpp"
 
 namespace GameValues {
     const float GAME_SPEED_PARAMETR = 1000.0f;
@@ -26,7 +27,7 @@ namespace GameValues {
 // Класс игры
 class Game {
  public:
-    explicit Game(sf::RenderWindow &window);
+    explicit Game(sf::RenderWindow &window, BackGround &background);
 
     void run();
 
@@ -47,6 +48,8 @@ class Game {
     Spawner spawner;
     GamePrinter printer;
 
+    BackGround background;
+
     void increaseGame();
     void increaseGameSpeed();
     void increaseScore();
@@ -62,19 +65,19 @@ class Game {
     void gameOverCheck();
 };
 
-Game::Game(sf::RenderWindow &window):
-    window(window),
+Game::Game(sf::RenderWindow &window, BackGround &background) :
+    window(window), background(background),
 
     mover(window, asteroids, bullets, ship, gameSpeed),
 
     spawner(window, asteroids, bullets, ship),
 
     printer(window, ship, asteroids, bullets, score) {
-        srand(time(nullptr));
-        score = 0;
-        gameSpeed = 1.0f;
-        gameSpeedParametr = GameValues::GAME_SPEED_PARAMETR;
-        isGameOver = false;
+    srand(time(nullptr));
+    score = 0;
+    gameSpeed = 1.0f;
+    gameSpeedParametr = GameValues::GAME_SPEED_PARAMETR;
+    isGameOver = false;
 }
 
 void Game::run() {
@@ -111,7 +114,10 @@ void Game::run() {
 
         gameOverCheck();
 
+        background.update();
+
         printer.printGame();
+        
         printer.printScore();
 
         window.display();

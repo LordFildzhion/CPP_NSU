@@ -1,3 +1,6 @@
+#ifndef TEXTURES_TESTS_HPP
+#define TEXTURES_TESTS_HPP
+
 #include <gtest/gtest.h>
 #include "Textures.hpp"
 
@@ -52,3 +55,5 @@ TEST(TexturesTest, LoadBulletTextureException) {
         texturesWithException.loadBulletTexture();
     });
 }
+
+#endif // TEXTURES_TESTS_HPP

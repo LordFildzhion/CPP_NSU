@@ -1,5 +1,9 @@
+#ifndef BUTTON_TESTS_HPP
+#define BUTTON_TESTS_HPP
+
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
+
 #include "Button.hpp"
 
 TEST(ButtonTests, SetMessage) {
@@ -47,7 +51,6 @@ TEST(ButtonTests, SetSize) {
 TEST(ButtonTests, IsPressed) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
     Button button(window, "Test Message");
-    // Simulate mouse press
     sf::Mouse::setPosition(sf::Vector2i(100, 150), window);
     button.setPosition({100, 150});
     EXPECT_FALSE(button.isPressed());
@@ -61,3 +64,5 @@ TEST(ButtonTests, IsHovered) {
     sf::Mouse::setPosition(sf::Vector2i(150, 175), window);
     EXPECT_TRUE(button.isHovered());
 }
+
+#endif  // BUTTON_TESTS_HPP

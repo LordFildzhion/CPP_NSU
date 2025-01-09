@@ -1,3 +1,6 @@
+#ifndef MENU_TESTS_HPP
+#define MENU_TESTS_HPP
+
 #include <string>
 
 #include <gtest/gtest.h>
@@ -65,3 +68,5 @@ TEST_F(MenuTest, CreateLabel) {
     sf::Font font;
     EXPECT_NO_THROW(menu->createLabel("Test", 100, 100, sf::Color::White, font, 50));
 }
+
+#endif  // MENU_TESTS_HPP

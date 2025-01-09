@@ -1,3 +1,6 @@
+#ifndef ASTEROID_TESTS_HPP
+#define ASTEROID_TESTS_HPP
+
 #include <gtest/gtest.h>
 #include "Asteroid.hpp"
 
@@ -69,3 +72,5 @@ TEST(AsteroidTest, SetRandomAsteroid) {
     EXPECT_GE(type, 1);
     EXPECT_LE(type, 3);
 }
+
+#endif  // ASTEROID_TESTS_HPP

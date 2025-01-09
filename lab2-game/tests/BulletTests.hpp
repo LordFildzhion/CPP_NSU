@@ -1,3 +1,6 @@
+#ifndef BULLET_TESTS_HPP
+#define BULLET_TESTS_HPP
+
 #include <gtest/gtest.h>
 
 #include "Bullet.hpp"
@@ -49,3 +52,5 @@ TEST(BulletTest, SetRandomType) {
     EXPECT_GE(bullet.getType(), 1);
     EXPECT_LE(bullet.getType(), 5);
 }
+
+#endif  // BULLET_TESTS_HPP

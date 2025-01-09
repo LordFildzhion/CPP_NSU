@@ -1,15 +1,18 @@
+#ifndef GAME_TESTS_HPP
+#define GAME_TESTS_HPP
+
 #include <vector>
 
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
 
+#include "Background.hpp"
 #include "Game.hpp"
 #include "Ship.hpp"
 #include "Asteroid.hpp"
 #include "Bullet.hpp"
 #include "Textures.hpp"
 
-// Mock classes for dependencies
 class MockWindow : public sf::RenderWindow {
  public:
     bool isOpen() const { return true; }
@@ -43,7 +46,7 @@ class MockBullet : public Bullet {
 
 class MockGame : public Game {
  public:
-    explicit MockGame(sf::RenderWindow &window) : Game(window) {}
+    explicit MockGame(sf::RenderWindow &window, BackGround &background) : Game(window, background) {}
 
     void addAsteroid(Asteroid &asteroid) {
         asteroids.push_back(asteroid);
@@ -124,7 +127,8 @@ class MockGame : public Game {
 
 TEST(GameTest, InitialState) {
     MockWindow window;
-    MockGame game(window);
+    BackGround background(window);
+    MockGame game(window, background);
 
     EXPECT_EQ(game.getScore(), 0);
     EXPECT_EQ(game.getGameSpeed(), 1.0f);
@@ -133,7 +137,8 @@ TEST(GameTest, InitialState) {
 
 TEST(GameTest, IncreaseScore) {
     MockWindow window;
-    MockGame game(window);
+    BackGround background(window);
+    MockGame game(window, background);
 
     game.increaseScore();
     EXPECT_EQ(game.getScore(), 1);
@@ -141,7 +146,8 @@ TEST(GameTest, IncreaseScore) {
 
 TEST(GameTest, IncreaseGameSpeed) {
     MockWindow window;
-    MockGame game(window);
+    BackGround background(window);
+    MockGame game(window, background);
 
     game.increaseGameSpeed();
     EXPECT_GT(game.getGameSpeed(), 0.0f);
@@ -149,7 +155,8 @@ TEST(GameTest, IncreaseGameSpeed) {
 
 TEST(GameTest, CheckAsteroidShipCollision) {
     MockWindow window;
-    MockGame game(window);
+    BackGround background(window);
+    MockGame game(window, background);
 
     MockAsteroid asteroid;
     asteroid.setPosition(game.getShip().getPosition());
@@ -161,7 +168,8 @@ TEST(GameTest, CheckAsteroidShipCollision) {
 
 TEST(GameTest, CheckAsteroidBulletCollision) {
     MockWindow window;
-    MockGame game(window);
+    BackGround background(window);
+    MockGame game(window, background);
 
     sf::Texture texture({10, 10});
     MockAsteroid asteroid(10, 10);
@@ -177,7 +185,8 @@ TEST(GameTest, CheckAsteroidBulletCollision) {
 
 TEST(GameTest, CheckAsteroidOutOfBounds) {
     MockWindow window;
-    MockGame game(window);
+    BackGround background(window);
+    MockGame game(window, background);
 
     MockAsteroid asteroid;
     game.addAsteroid(asteroid);
@@ -188,7 +197,8 @@ TEST(GameTest, CheckAsteroidOutOfBounds) {
 
 TEST(GameTest, CheckBulletOutOfBounds) {
     MockWindow window;
-    MockGame game(window);
+    BackGround background(window);
+    MockGame game(window, background);
     sf::Texture texture({10, 10});
     MockBullet bullet(texture, -100, -100);
     game.addBullet(bullet);
@@ -196,3 +206,5 @@ TEST(GameTest, CheckBulletOutOfBounds) {
     game.checkBulletOutOfBounds();
     EXPECT_EQ(game.getBullets().size(), 0);
 }
+
+#endif  // GAME_TESTS_HPP

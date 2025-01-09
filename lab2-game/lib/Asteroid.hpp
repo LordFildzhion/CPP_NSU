@@ -4,8 +4,10 @@
 #include <utility>
 
 namespace AsteroidValues {
-    size_t ASTEROID_MAX_RADIUS = 20;
-    size_t ASTEROID_MIN_RADIUS = 10;
+    const size_t MAX_RADIUS = 20;
+    const size_t MIN_RADIUS = 10;
+    const size_t MAX_ANGLE_COUNT = 10;
+    const size_t MIN_ANGLE_COUNT = 6;
 }
 
 #include <SFML/Graphics.hpp>
@@ -49,12 +51,12 @@ class Asteroid {
     size_t type;
 };
 
-Asteroid::Asteroid(float x, float y) : shape(AsteroidValues::ASTEROID_MAX_RADIUS, 8) {
+Asteroid::Asteroid(float x, float y) : shape(AsteroidValues::MAX_RADIUS, rand() % (AsteroidValues::MAX_ANGLE_COUNT - AsteroidValues::MIN_ANGLE_COUNT + 1) + AsteroidValues::MIN_ANGLE_COUNT) {
     shape.setPosition({x, y});
     type = 1;
 }
 
-Asteroid::Asteroid(const sf::Vector2f &position) : shape(AsteroidValues::ASTEROID_MAX_RADIUS, 8) {
+Asteroid::Asteroid(const sf::Vector2f &position) : shape(AsteroidValues::MAX_RADIUS, rand() % (AsteroidValues::MAX_ANGLE_COUNT - AsteroidValues::MIN_ANGLE_COUNT + 1) + AsteroidValues::MIN_ANGLE_COUNT) {
     shape.setPosition(position);
     type = 1;
 }
@@ -92,7 +94,7 @@ float Asteroid::getRadius() {
 }
 
 void Asteroid::setRandomRadius() {
-    shape.setRadius(rand() % AsteroidValues::ASTEROID_MAX_RADIUS + AsteroidValues::ASTEROID_MIN_RADIUS);
+    shape.setRadius(rand() % AsteroidValues::MAX_RADIUS + AsteroidValues::MIN_RADIUS);
 }
 
 void Asteroid::setType(int8_t type) {

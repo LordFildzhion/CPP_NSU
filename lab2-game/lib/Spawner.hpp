@@ -14,7 +14,7 @@
 namespace SpawnerValues {
     const float ASTEROID_SPAWN_TIME = 1.0f;
     const float BULLET_SPAWN_TIME = 0.25f;
-    const float DEFAULT_BORDERS_ASTEROID_SPAWN_PLACE = 50.0f;
+    const float DEFAULT_BORDERS_ASTEROID_SPAWN_PLACE = 25.0f;
 };
 
 class Spawner {
@@ -83,7 +83,7 @@ window(window), asteroids(asteroids), bullets(bullets), ship(ship) {
 void Spawner::spawnAsteroid() {
     if (asteroidClock.getElapsedTime().asSeconds() > asteroidSpawnTime || asteroids.empty()) {
         sf::Vector2f asteroidPosition;
-        asteroidPosition.x = rand() % size_t(window.getSize().x - bordersAsteroidSpawnPlace - AsteroidValues::ASTEROID_MAX_RADIUS) + bordersAsteroidSpawnPlace;
+        asteroidPosition.x = rand() % size_t(window.getSize().x - bordersAsteroidSpawnPlace - AsteroidValues::MAX_RADIUS * 2) + bordersAsteroidSpawnPlace;
         asteroidPosition.y = -bordersAsteroidSpawnPlace;
 
         asteroids.push_back(Asteroid(asteroidPosition));
