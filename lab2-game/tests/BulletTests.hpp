@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+
 #include "Bullet.hpp"
 #include "Textures.hpp"
 

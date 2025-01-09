@@ -1,6 +1,8 @@
 #ifndef MOVER_HPP
 #define MOVER_HPP
 
+#include <vector>
+
 #include <SFML/Graphics.hpp>
 
 #include "Asteroid.hpp"
@@ -8,13 +10,13 @@
 #include "Ship.hpp"
 
 class Mover {
-public:
+ public:
     Mover(
-        sf::RenderWindow &window,
-        std::vector<Asteroid> &asteroids,
-        std::vector<Bullet> &bullets, Ship &ship,
-        float &gameSpeed
-    );
+    sf::RenderWindow &window,
+    std::vector<Asteroid> &asteroids,
+    std::vector<Bullet> &bullets,
+    Ship &ship,
+    float &gameSpeed);
 
     void moveBullet();
 
@@ -24,7 +26,7 @@ public:
 
     void addGameSpeed(float increase);
 
-private:
+ private:
     std::vector<Asteroid> &asteroids;
     std::vector<Bullet> &bullets;
     Ship &ship;
@@ -79,4 +81,4 @@ void Mover::addGameSpeed(float increase) {
     gameSpeed += increase;
 }
 
-#endif // MOVER_HPP
+#endif  // MOVER_HPP

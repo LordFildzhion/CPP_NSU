@@ -1,12 +1,16 @@
+#include <vector>
+#include <string>
+
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
+
 #include "GamePrinter.hpp"
 #include "Ship.hpp"
 #include "Asteroid.hpp"
 #include "Bullet.hpp"
 
 class GamePrinterTest : public GamePrinter {
-public:
+ public:
     GamePrinterTest(sf::RenderWindow &window, Ship &ship, std::vector<Asteroid> &asteroids, std::vector<Bullet> &bullets, size_t &score, const std::string &fontPath)
         : GamePrinter(window, ship, asteroids, bullets, score, fontPath) {}
 

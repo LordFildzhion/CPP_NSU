@@ -12,7 +12,7 @@ TEST(ButtonTests, SetMessage) {
 TEST(ButtonTests, SetPosition) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
     Button button(window, "Test Message");
-    button.setPosition(100, 150);
+    button.setPosition({100, 150});
     EXPECT_EQ(button.getPosition(), sf::Vector2f(100, 150));
 }
 
@@ -49,7 +49,7 @@ TEST(ButtonTests, IsPressed) {
     Button button(window, "Test Message");
     // Simulate mouse press
     sf::Mouse::setPosition(sf::Vector2i(100, 150), window);
-    button.setPosition(100, 150);
+    button.setPosition({100, 150});
     EXPECT_FALSE(button.isPressed());
 }
 
@@ -57,7 +57,7 @@ TEST(ButtonTests, IsHovered) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
     Button button(window, "Test Message");
     button.setSize(50.0f);
-    button.setPosition(100, 150);
+    button.setPosition({100, 150});
     sf::Mouse::setPosition(sf::Vector2i(150, 175), window);
     EXPECT_TRUE(button.isHovered());
 }

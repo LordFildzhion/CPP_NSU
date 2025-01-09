@@ -20,15 +20,17 @@
 
 namespace GameValues {
     const float GAME_SPEED_PARAMETR = 1000.0f;
+    const size_t GAME_OVER_SCREEN_TIME = 3;
 };
 
 // Класс игры
 class Game {
-public:
-    Game(sf::RenderWindow &window);
+ public:
+    explicit Game(sf::RenderWindow &window);
+
     void run();
 
-protected:
+ protected:
     sf::RenderWindow &window;
 
     Ship ship;
@@ -64,7 +66,7 @@ Game::Game(sf::RenderWindow &window):
     window(window),
 
     mover(window, asteroids, bullets, ship, gameSpeed),
-    
+
     spawner(window, asteroids, bullets, ship),
 
     printer(window, ship, asteroids, bullets, score) {
@@ -73,7 +75,6 @@ Game::Game(sf::RenderWindow &window):
         gameSpeed = 1.0f;
         gameSpeedParametr = GameValues::GAME_SPEED_PARAMETR;
         isGameOver = false;
-    
 }
 
 void Game::run() {
@@ -107,7 +108,7 @@ void Game::run() {
         mover.moveAsteroids();
 
         checkCollisions();
-        
+
         gameOverCheck();
 
         printer.printGame();
@@ -144,7 +145,7 @@ void Game::increaseAsteroidSpawnTime() {
 
 void Game::checkAsteroidShipCollision() {
     for (auto &asteroid : asteroids) {
-        if (asteroid.getShape().getGlobalBounds().findIntersection (ship.getShape().getGlobalBounds())) {
+        if (asteroid.getShape().getGlobalBounds().findIntersection(ship.getShape().getGlobalBounds())) {
             window.clear();
             isGameOver = true;
             break;
@@ -183,12 +184,12 @@ void Game::checkBulletOutOfBounds() {
 
 void Game::gameOver() {
     window.clear();
-    
+
     printer.printGameOverScreen();
-    
+
     window.display();
 
-    sf::sleep(sf::seconds(3));
+    sf::sleep(sf::seconds(GameValues::GAME_OVER_SCREEN_TIME));
     window.clear();
 }
 
@@ -200,4 +201,4 @@ void Game::gameOverCheck() {
     }
 }
 
-#endif // GAME_HPP
+#endif  // GAME_HPP

@@ -1,26 +1,28 @@
 #ifndef GAMEENGINE_HPP
 #define GAMEENGINE_HPP
 
+#include <iostream>
+
+#include <SFML/Graphics.hpp>
+
 #include "Menu.hpp"
 #include "Game.hpp"
 
-#include <iostream>
-#include <SFML/Graphics.hpp>
-
 class GameStarter {
-public:
-    GameStarter(sf::RenderWindow &window) : window(window) {}
+ public:
+    explicit GameStarter(sf::RenderWindow &window) : window(window) {}
 
     void run();
 
-private:
+ private:
     sf::RenderWindow &window;
 };
 
 void GameStarter::run() {
     std::cout << "GameStarter run" << std::endl;
 
-    // Задержка перед выходом из игры (для того, чтобы не выйти случайно при нажатии на Esc)
+    // Задержка перед выходом из игры
+    // (для того, чтобы не выйти случайно при нажатии на Esc)
     const float exitTime = 0.25f;
     sf::Clock exitClock;
 
@@ -41,7 +43,7 @@ void GameStarter::run() {
                 std::cout << "Game closed" << std::endl;
             }
         }
-        
+
         window.clear();
         menu.draw();
         window.display();
@@ -66,4 +68,4 @@ void GameStarter::run() {
     }
 }
 
-#endif // GAMEENGINE_HPP
+#endif  // GAMEENGINE_HPP

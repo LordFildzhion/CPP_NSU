@@ -11,12 +11,12 @@
 #include <SFML/Graphics.hpp>
 
 class TexturesException : public std::exception {
-public:
+ public:
     explicit TexturesException(const std::string &message) : message(message) {}
 
     const char *what() const noexcept override;
 
-private:
+ private:
     std::string message;
 };
 
@@ -25,7 +25,7 @@ const char* TexturesException::what() const noexcept {
 }
 
 class Textures {
-public:
+ public:
     Textures();
 
     void loadShipTexture(std::string pathToShips = "../rec/textures/ship");
@@ -40,7 +40,7 @@ public:
 
     std::vector<sf::Texture> &getBulletTextures();
 
-private:
+ private:
     std::vector<sf::Texture> shipTextures;
     std::vector<sf::Texture> asteroidTextures;
     std::vector<sf::Texture> bulletTextures;
@@ -110,4 +110,4 @@ std::vector<sf::Texture>& Textures::getBulletTextures() {
     return bulletTextures;
 }
 
-#endif // TEXTURES_HPP
+#endif  // TEXTURES_HPP

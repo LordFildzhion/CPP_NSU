@@ -1,9 +1,9 @@
 #include "GameStarter.hpp"
 
-#include <SFML/Graphics.hpp> 
- 
-int main() { 
-    // Инициализация окна 
+#include <SFML/Graphics.hpp>
+
+int main() {
+    // Инициализация окна
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Astro Shooter");
     window.setFramerateLimit(60);
 

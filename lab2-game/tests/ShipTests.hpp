@@ -37,7 +37,7 @@ TEST(ShipTests, SetType) {
 
 TEST(ShipTests, SetRandomType) {
     Ship ship;
-    ship.setRandomType();
+    ship.setRandomType(2);
     size_t type = ship.getType();
     EXPECT_TRUE(type == 1 || type == 2);
 }

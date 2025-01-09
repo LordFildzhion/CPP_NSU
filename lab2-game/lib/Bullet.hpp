@@ -1,6 +1,8 @@
 #ifndef BULLET_HPP
 #define BULLET_HPP
 
+#include <utility>
+
 #include <SFML/Graphics.hpp>
 
 namespace BulletValues {
@@ -12,7 +14,7 @@ namespace BulletValues {
 };
 
 class Bullet {
-public:
+ public:
     Bullet(float x, float y, size_t typeOther = BulletValues::BULLET_TYPE_DEFAULT, int8_t scatterOther = BulletValues::BULLET_SCATTER_DEFAULT);
 
     void move(float distanceY);
@@ -27,7 +29,7 @@ public:
 
     void setPosition(float x, float y);
 
-    void setTexture(sf::Texture &textureOther);
+    void setTexture(const sf::Texture &textureOther);
 
     void setScatter(int8_t scatterOther);
 
@@ -39,7 +41,7 @@ public:
 
     void setRandomType(size_t typesCount);
 
-private:
+ private:
     sf::CircleShape shape;
     int8_t scatter;
     size_t type;
@@ -79,7 +81,7 @@ void Bullet::setPosition(float x, float y) {
     shape.setPosition({x, y});
 }
 
-void Bullet::setTexture(sf::Texture &texture) {
+void Bullet::setTexture(const sf::Texture &texture) {
     shape.setTexture(&texture);
 }
 
@@ -104,4 +106,4 @@ void Bullet::setRandomType(size_t typesCount) {
     type = rand() % typesCount + 1;
 }
 
-#endif // BULLET_HPP
+#endif  // BULLET_HPP

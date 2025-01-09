@@ -1,15 +1,17 @@
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
+#include <string>
+
 #include <SFML/Graphics.hpp>
 
 class Button {
-public:
+ public:
     Button(sf::RenderWindow &window, const std::string &message);
 
     void setMessage(const std::string &message);
 
-    void setPosition(float x, float y);
+    void setPosition(sf::Vector2f position);
 
     void draw();
 
@@ -31,7 +33,7 @@ public:
 
     sf::Text getText();
 
-private:
+ private:
     sf::RenderWindow &window;
     sf::Font font;
     sf::Text text;
@@ -49,8 +51,8 @@ void Button::setMessage(const std::string &message) {
     text.setString(message);
 }
 
-void Button::setPosition(float x, float y) {
-    text.setPosition({x, y});
+void Button::setPosition(sf::Vector2f position) {
+    text.setPosition(position);
 }
 
 void Button::draw() {
@@ -62,7 +64,7 @@ bool Button::isPressed() {
 }
 
 bool Button::isHovered() {
-    return text.getGlobalBounds().contains({(float)sf::Mouse::getPosition(window).x, (float)sf::Mouse::getPosition(window).y});
+    return text.getGlobalBounds().contains({static_cast<float>(sf::Mouse::getPosition(window).x), static_cast<float>(sf::Mouse::getPosition(window).y)});
 }
 
 void Button::setFillColor(const sf::Color &color) {
@@ -93,4 +95,4 @@ sf::Text Button::getText() {
     return text;
 }
 
-#endif
+#endif  // BUTTON_HPP

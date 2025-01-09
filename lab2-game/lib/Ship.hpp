@@ -1,11 +1,13 @@
 #ifndef SHIP_HPP
 #define SHIP_HPP
 
+#include <utility>
+
 #include <SFML/Graphics.hpp>
 
 class Ship {
-public:
-    Ship(float x = 400, float y = 500, size_t type = 1);
+ public:
+    explicit Ship(float x = 400, float y = 500, size_t type = 1);
 
     void move(float dx);
 
@@ -23,9 +25,9 @@ public:
 
     size_t getType();
 
-    void setRandomType();
+    void setRandomType(size_t typeCount);
 
-private:
+ private:
     sf::CircleShape shape;
     size_t type;
 };
@@ -67,8 +69,8 @@ size_t Ship::getType() {
     return type;
 }
 
-void Ship::setRandomType() {
-    type = rand() % 2 + 1;
+void Ship::setRandomType(size_t typeCount) {
+    type = rand() % typeCount + 1;
 }
 
-#endif // SHIP_HPP
+#endif  // SHIP_HPP

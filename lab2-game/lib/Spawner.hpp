@@ -1,6 +1,9 @@
 #ifndef SPAWNER_HPP
 #define SPAWNER_HPP
 
+#include <vector>
+#include <utility>
+
 #include <SFML/Graphics.hpp>
 
 #include "Asteroid.hpp"
@@ -11,7 +14,7 @@
 namespace SpawnerValues {
     const float ASTEROID_SPAWN_TIME = 1.0f;
     const float BULLET_SPAWN_TIME = 0.25f;
-    const float BORDERS_ASTEROID_SPAWN_PLACE = 50.0f;
+    const float DEFAULT_BORDERS_ASTEROID_SPAWN_PLACE = 50.0f;
 };
 
 class Spawner {
@@ -72,18 +75,18 @@ Spawner::Spawner(
     Ship &ship
 ):
 window(window), asteroids(asteroids), bullets(bullets), ship(ship) {
-    bordersAsteroidSpawnPlace = SpawnerValues::BORDERS_ASTEROID_SPAWN_PLACE;
+    bordersAsteroidSpawnPlace = SpawnerValues::DEFAULT_BORDERS_ASTEROID_SPAWN_PLACE;
     asteroidSpawnTime = SpawnerValues::ASTEROID_SPAWN_TIME;
     bulletSpawnTime = SpawnerValues::BULLET_SPAWN_TIME;
 }
 
 void Spawner::spawnAsteroid() {
     if (asteroidClock.getElapsedTime().asSeconds() > asteroidSpawnTime || asteroids.empty()) {
-        std::pair <float, float> asteroidPosition;
-        asteroidPosition.first = rand() % size_t(window.getSize().x - bordersAsteroidSpawnPlace - AsteroidValues::ASTEROID_MAX_RADIUS) + bordersAsteroidSpawnPlace;
-        asteroidPosition.second = -bordersAsteroidSpawnPlace;
+        sf::Vector2f asteroidPosition;
+        asteroidPosition.x = rand() % size_t(window.getSize().x - bordersAsteroidSpawnPlace - AsteroidValues::ASTEROID_MAX_RADIUS) + bordersAsteroidSpawnPlace;
+        asteroidPosition.y = -bordersAsteroidSpawnPlace;
 
-        asteroids.push_back(Asteroid(asteroidPosition.first, asteroidPosition.second));
+        asteroids.push_back(Asteroid(asteroidPosition));
         asteroids.back().setRandomAsteroid(textures.getAsteroidTextures().size());
         asteroids.back().setTexture(textures.getAsteroidTextures()[asteroids.back().getType() - 1]);
 
@@ -106,7 +109,7 @@ void Spawner::spawnBullet(sf::Keyboard::Key key) {
 
 void Spawner::spawnShip() {
     ship.setPosition(window.getSize().x / 2, window.getSize().y - ship.getShape().getRadius() * 2);
-    ship.setRandomType();
+    ship.setRandomType(textures.getShipTextures().size());
     ship.setTexture(textures.getShipTextures()[ship.getType() - 1]);
 }
 
@@ -118,4 +121,4 @@ void Spawner::addBulletSpawnTime(float increase) {
     bulletSpawnTime += increase;
 }
 
-#endif // SPAWNER_HPP
+#endif  // SPAWNER_HPP

@@ -1,5 +1,8 @@
+#include <vector>
+
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
+
 #include "Spawner.hpp"
 #include "Textures.hpp"
 #include "Asteroid.hpp"
@@ -7,12 +10,12 @@
 #include "Ship.hpp"
 
 class TestSpawner: public Spawner {
-public:
+ public:
     TestSpawner(
         sf::RenderWindow &window,
         std::vector<Asteroid> &asteroids,
-        std::vector<Bullet> &bullets, Ship &ship
-    ):
+        std::vector<Bullet> &bullets,
+        Ship &ship):
     Spawner(window, asteroids, bullets, ship) {}
 
     void setAsteroids(std::vector<Asteroid> &asteroids) {
@@ -59,17 +62,11 @@ public:
         bulletSpawnTime += increase;
     }
 
-    void spawnAsteroid() {
-        Spawner::spawnAsteroid();
-    }
+    using Spawner::spawnAsteroid;
 
-    void spawnShip() {
-        Spawner::spawnShip();
-    }
+    using Spawner::spawnShip;
 
-    void spawnBullet(sf::Keyboard::Key key) {
-        Spawner::spawnBullet(key);
-    }
+    using Spawner::spawnBullet;
 };
 
 TEST(SpawnerTest, SpawnAsteroid) {
@@ -136,5 +133,5 @@ TEST(SpawnerTest, BordersAsteroidSpawnPlace) {
     Ship ship;
     TestSpawner spawner(window, asteroids, bullets, ship);
 
-    EXPECT_EQ(spawner.getBordersAsteroidSpawnPlace(), 100.0f);
+    EXPECT_EQ(spawner.getBordersAsteroidSpawnPlace(), SpawnerValues::DEFAULT_BORDERS_ASTEROID_SPAWN_PLACE);
 }

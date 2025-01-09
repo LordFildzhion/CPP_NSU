@@ -1,17 +1,20 @@
 #ifndef ASTEROID_HPP
 #define ASTEROID_HPP
 
+#include <utility>
+
 namespace AsteroidValues {
     size_t ASTEROID_MAX_RADIUS = 20;
-    size_t ASTEROID_MIN_RADIUS = 10;    
-
+    size_t ASTEROID_MIN_RADIUS = 10;
 }
 
 #include <SFML/Graphics.hpp>
 
 class Asteroid {
-public:
+ public:
     Asteroid(float x, float y);
+
+    explicit Asteroid(const sf::Vector2f &position);
 
     void move(float dy);
 
@@ -22,6 +25,8 @@ public:
     sf::Vector2f getPosition();
 
     void setPosition(float x, float y);
+
+    void setPosition(const sf::Vector2f &position);
 
     void setRadius(float radius);
 
@@ -37,15 +42,20 @@ public:
 
     void setRandomType(size_t typesCount);
 
-    void setTexture(sf::Texture &texture);
+    void setTexture(const sf::Texture &texture);
 
-private:
+ private:
     sf::CircleShape shape;
     size_t type;
 };
 
 Asteroid::Asteroid(float x, float y) : shape(AsteroidValues::ASTEROID_MAX_RADIUS, 8) {
     shape.setPosition({x, y});
+    type = 1;
+}
+
+Asteroid::Asteroid(const sf::Vector2f &position) : shape(AsteroidValues::ASTEROID_MAX_RADIUS, 8) {
+    shape.setPosition(position);
     type = 1;
 }
 
@@ -67,6 +77,10 @@ sf::Vector2f Asteroid::getPosition() {
 
 void Asteroid::setPosition(float x, float y) {
     shape.setPosition({x, y});
+}
+
+void Asteroid::setPosition(const sf::Vector2f &position) {
+    shape.setPosition(position);
 }
 
 void Asteroid::setRadius(float radius) {
@@ -98,8 +112,9 @@ void Asteroid::setRandomType(size_t typesCount) {
     type = rand() % typesCount + 1;
 }
 
-void Asteroid::setTexture(sf::Texture &texture) {
+void Asteroid::setTexture(const sf::Texture &texture) {
     shape.setTexture(&texture);
 }
 
-#endif // ASTEROID_HPP
+
+#endif  // ASTEROID_HPP

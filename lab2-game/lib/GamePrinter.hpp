@@ -2,10 +2,6 @@
 #define GAMEPRINTER_HPP
 
 #include <vector>
-#include <cstdlib>
-#include <ctime>
-#include <optional>
-#include <iostream>
 #include <string>
 
 #include <SFML/Graphics.hpp>
@@ -16,12 +12,12 @@
 #include "Textures.hpp"
 
 class GamePrinterExceptions : public std::exception {
-public:
+ public:
     explicit GamePrinterExceptions(const std::string &message) : message(message) {}
 
     const char *what() const noexcept override;
 
-private:
+ private:
     std::string message;
 };
 
@@ -30,8 +26,14 @@ const char* GamePrinterExceptions::what() const noexcept {
 }
 
 class GamePrinter {
-public:
-    GamePrinter(sf::RenderWindow &window, Ship &ship, std::vector<Asteroid> &asteroids, std::vector<Bullet> &bullets, size_t &score, const std::string &fontPath = "../rec/fonts/arialmt.ttf");
+ public:
+    GamePrinter(
+        sf::RenderWindow &window,
+        Ship &ship,
+        std::vector<Asteroid> &asteroids,
+        std::vector<Bullet> &bullets,
+        size_t &score,
+        const std::string &fontPath = "../rec/fonts/arialmt.ttf");
 
     void printGame();
 
@@ -39,7 +41,7 @@ public:
 
     void printGameOverScreen();
 
-protected:
+ protected:
     sf::RenderWindow &window;
     std::string fontPath;
 
@@ -62,7 +64,13 @@ protected:
     void printGameOverScore();
 };
 
-GamePrinter::GamePrinter(sf::RenderWindow &window, Ship &ship, std::vector<Asteroid> &asteroids, std::vector<Bullet> &bullets, size_t &score, const std::string &fontPath):
+GamePrinter::GamePrinter(
+    sf::RenderWindow &window,
+    Ship &ship,
+    std::vector<Asteroid> &asteroids,
+    std::vector<Bullet> &bullets,
+    size_t &score,
+    const std::string &fontPath):
     window(window), ship(ship), asteroids(asteroids), bullets(bullets), score(score), fontPath(fontPath) {
         gameValues.scorePosition = {10, 10};
         gameValues.scoreSize = 30;
@@ -133,4 +141,4 @@ void GamePrinter::printGameOverScore() {
     window.draw(scoreText);
 }
 
-#endif // GAMEPRINTER_HPP
+#endif //  GAMEPRINTER_HPP

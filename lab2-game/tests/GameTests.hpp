@@ -1,5 +1,8 @@
+#include <vector>
+
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
+
 #include "Game.hpp"
 #include "Ship.hpp"
 #include "Asteroid.hpp"
@@ -8,7 +11,7 @@
 
 // Mock classes for dependencies
 class MockWindow : public sf::RenderWindow {
-public:
+ public:
     bool isOpen() const { return true; }
     bool pollEvent(sf::Event& event) { return false; }
     void clear() {}
@@ -16,12 +19,12 @@ public:
 };
 
 class MockShip : public Ship {
-public:
+ public:
     sf::FloatRect getGlobalBounds() const { return sf::FloatRect({0, 0}, {50, 50}); }
 };
 
 class MockAsteroid : public Asteroid {
-public:
+ public:
     MockAsteroid() : Asteroid(50, 50) {}
 
     MockAsteroid(float x, float y) : Asteroid(x, y) {}
@@ -31,8 +34,7 @@ public:
 };
 
 class MockBullet : public Bullet {
-public:
-
+ public:
     MockBullet(sf::Texture &texture, float x, float y) : Bullet(x, y) {}
 
     sf::FloatRect getGlobalBounds() const { return sf::FloatRect({0, 0}, {10, 10}); }
@@ -40,8 +42,8 @@ public:
 };
 
 class MockGame : public Game {
-public:
-    MockGame(sf::RenderWindow &window) : Game(window) {}
+ public:
+    explicit MockGame(sf::RenderWindow &window) : Game(window) {}
 
     void addAsteroid(Asteroid &asteroid) {
         asteroids.push_back(asteroid);
@@ -150,7 +152,7 @@ TEST(GameTest, CheckAsteroidShipCollision) {
     MockGame game(window);
 
     MockAsteroid asteroid;
-    asteroid.setPosition(game.getShip().getPosition().x, game.getShip().getPosition().y);
+    asteroid.setPosition(game.getShip().getPosition());
     game.addAsteroid(asteroid);
 
     game.checkAsteroidShipCollision();

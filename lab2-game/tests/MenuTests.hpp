@@ -1,3 +1,5 @@
+#include <string>
+
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
 
@@ -5,8 +7,8 @@
 #include "Button.hpp"
 
 class TestMenu : private Menu {
-public:
-    TestMenu(sf::RenderWindow &window) : Menu(window) {}
+ public:
+    explicit TestMenu(sf::RenderWindow &window) : Menu(window) {}
 
     Button getStartButton() {
         return startButton;
@@ -21,7 +23,7 @@ public:
     }
 
     void createButton(Button &button, const std::string &message, float x, float y, const sf::Color &fillColor, const float size) {
-        Menu::createButton(button, message, x, y, fillColor, size);
+        Menu::createButton(button, message, {x, y}, fillColor, size);
     }
 
     void createLabel(const std::string &message, float x, float y, const sf::Color &fillColor, sf::Font font, const float size) {
@@ -31,7 +33,7 @@ public:
 
 
 class MenuTest : public ::testing::Test {
-protected:
+ protected:
     sf::RenderWindow window;
     TestMenu* menu;
 

@@ -6,8 +6,8 @@ TEST(TexturesTest, LoadShipTextures) {
     auto shipTextures = textures.getShipTextures();
     ASSERT_EQ(shipTextures.size(), 2);
     for (const auto& texture : shipTextures) {
-        EXPECT_TRUE(texture.getSize().x > 0);
-        EXPECT_TRUE(texture.getSize().y > 0);
+        EXPECT_GT(texture.getSize().x, 0);
+        EXPECT_GT(texture.getSize().y, 0);
     }
 }
 
@@ -16,16 +16,17 @@ TEST(TexturesTest, LoadAsteroidTextures) {
     auto asteroidTextures = textures.getAsteroidTextures();
     ASSERT_EQ(asteroidTextures.size(), 3);
     for (const auto& texture : asteroidTextures) {
-        EXPECT_TRUE(texture.getSize().x > 0);
-        EXPECT_TRUE(texture.getSize().y > 0);
+        EXPECT_GT(texture.getSize().x, 0);
+        EXPECT_GT(texture.getSize().y, 0);
     }
 }
 
 TEST(TexturesTest, LoadBulletTexture) {
     Textures textures;
     auto& bulletTexture = textures.getBulletTextures();
-    EXPECT_TRUE(bulletTexture.back().getSize().x > 0);
-    EXPECT_TRUE(bulletTexture.back().getSize().y > 0);
+    EXPECT_GT(bulletTexture.size(), 0);
+    EXPECT_GT(bulletTexture.back().getSize().x, 0);
+    EXPECT_GT(bulletTexture.back().getSize().y, 0);
 }
 
 TEST(TexturesTest, LoadShipTextureException) {

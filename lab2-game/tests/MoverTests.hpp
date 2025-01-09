@@ -1,12 +1,15 @@
+#include <vector>
+
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
+
 #include "Mover.hpp"
 #include "Asteroid.hpp"
 #include "Bullet.hpp"
 #include "Ship.hpp"
 
 class MoverTest : public ::testing::Test {
-protected:
+ protected:
     sf::RenderWindow window;
     std::vector<Asteroid> asteroids;
     std::vector<Bullet> bullets;

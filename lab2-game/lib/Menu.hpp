@@ -9,12 +9,12 @@
 #include "Button.hpp"
 
 class MenuException : public std::exception {
-public:
-    MenuException(const std::string &message) : message(message) {}
+ public:
+    explicit MenuException(const std::string &message) : message(message) {}
 
     const char *what() const noexcept override;
 
-private:
+ private:
     std::string message;
 };
 
@@ -22,8 +22,14 @@ const char* MenuException::what() const noexcept {
     return message.c_str();
 }
 
+namespace MenuValues {
+    const float LABLE_SIZE = 100.0f;
+    const float START_BUTTON_SIZE = 75.0f;
+    const float EXIT_BUTTON_SIZE = 75.0f;
+}
+
 class Menu {
-public:
+ public:
     Menu(sf::RenderWindow &window, const std::string &fontPath);
 
     void draw();
@@ -32,8 +38,8 @@ public:
 
     bool isExitButtonPressed();
 
-protected:
-    void createButton(Button &button, const std::string &message, float x, float y, const sf::Color &fillColor, const float size);
+ protected:
+    void createButton(Button &button, const std::string &message, sf::Vector2f buttonPosition, const sf::Color &fillColor, const float size);
 
     void createLabel(const std::string &message, float x, float y, const sf::Color &fillColor, sf::Font font, const float size);
 
@@ -56,16 +62,28 @@ startButton(window, "Start"), exitButton(window, "Exit") {
         throw MenuException("ERROR!!!\nMENU::MENU:: Can't open font file\n");
     }
 
-    lableSize = 100.0f;
-    startButtonSize = 75.0f;
-    exitButtonSize = 75.0f;
+    lableSize = MenuValues::LABLE_SIZE;
+    startButtonSize = MenuValues::START_BUTTON_SIZE;
+    exitButtonSize = MenuValues::EXIT_BUTTON_SIZE;
 
     createLabel("Astro Shooter", window.getSize().x / 2, window.getSize().y / 2, sf::Color::Red, font, lableSize);
-    lable.setPosition({window.getSize().x / 2 - lable.getGlobalBounds().size.x / 2, lableSize});
 
-    createButton(startButton, "Start", lable.getPosition().x + lable.getGlobalBounds().size.x / 3, lable.getPosition().y + window.getSize().y / 3, sf::Color::Green, startButtonSize);
+    sf::Vector2f lablePosition, startButtonPosition, exitButtonPosition;
 
-    createButton(exitButton, "Exit", startButton.getPosition().x, startButton.getPosition().y + window.getSize().y / 7, sf::Color::Blue, exitButtonSize);
+    lablePosition.x = window.getSize().x / 2 - lable.getGlobalBounds().size.x / 2;
+    lablePosition.y = lableSize;
+
+    startButtonPosition.x = lablePosition.x + lable.getGlobalBounds().size.x / 3;
+    startButtonPosition.y = lablePosition.y + window.getSize().y / 3;
+
+    exitButtonPosition.x = startButtonPosition.x;
+    exitButtonPosition.y = startButtonPosition.y + window.getSize().y / 7;
+
+    lable.setPosition(lablePosition);
+
+    createButton(startButton, "Start", startButtonPosition, sf::Color::Green, startButtonSize);
+
+    createButton(exitButton, "Exit", exitButtonPosition, sf::Color::Blue, exitButtonSize);
 }
 
 void Menu::draw() {
@@ -82,9 +100,9 @@ bool Menu::isExitButtonPressed() {
     return exitButton.isPressed();
 }
 
-void Menu::createButton(Button &button, const std::string &message, float x, float y, const sf::Color &fillColor, const float size) {
+void Menu::createButton(Button &button, const std::string &message, sf::Vector2f buttonPosition, const sf::Color &fillColor, const float size) {
     button.setMessage(message);
-    button.setPosition(x, y);
+    button.setPosition(buttonPosition);
     button.setFillColor(fillColor);
     button.setSize(size);
 }
@@ -96,4 +114,4 @@ void Menu::createLabel(const std::string &message, float x, float y, const sf::C
     lable.setCharacterSize(size);
 }
 
-#endif // MENU_HPP
+#endif  // MENU_HPP
