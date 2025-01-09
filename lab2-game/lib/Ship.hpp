@@ -33,7 +33,7 @@ private:
 
 Ship::Ship(float x, float y, size_t type) : shape(50.0f, 8) {
     shape.setPosition({x, y});
-    type = 1;
+    this->type = type;
 }
 
 void Ship::move(float dx) {

@@ -3,11 +3,12 @@
 
 #include <SFML/Graphics.hpp>
 
+
 class Bullet {
 public:
-    Bullet(sf::Texture &texture, float x, float y);
+    Bullet(float x, float y, size_t typeOther = 1, int8_t scatterOther = -1);
 
-    void move(float dy);
+    void move(float distanceY);
 
     sf::CircleShape getShape();
 
@@ -15,28 +16,39 @@ public:
 
     sf::Vector2f getPosition();
 
+    sf::Vector2f getPositionWithoutScatter();
+
     void setPosition(float x, float y);
 
     void setTexture(sf::Texture &texture);
 
-    void setScatter(size_t scatter);
+    void setScatter(int8_t scatterOther);
 
-    size_t getScatter();
+    int8_t getScatter();
+
+    void setType(size_t type);
+
+    size_t getType();
+
+    void setRandomType(size_t typesCount);
 
 private:
     sf::CircleShape shape;
     int8_t scatter;
+    size_t type;
 };
 
-Bullet::Bullet(sf::Texture &texture, float x, float y) : shape(10.0f, 5) {
-    scatter = (rand() % 10) - (rand() % 10);
-
+Bullet::Bullet(float x, float y, size_t typeOther, int8_t scatterOther) : shape(10.0f, 5) {
+    if (scatterOther < 0) {
+        scatterOther = (rand() % 10) - (rand() % 10);
+    }
+    this->type = typeOther;
+    this->scatter = scatterOther;
     shape.setPosition({x + scatter, y});
-    shape.setTexture(&texture);
 }
 
-void Bullet::move(float dy) {
-    shape.move({0, dy});
+void Bullet::move(float distanceY) {
+    shape.move({0, distanceY});
 }
 
 sf::CircleShape Bullet::getShape() {
@@ -51,6 +63,10 @@ sf::Vector2f Bullet::getPosition() {
     return shape.getPosition();
 }
 
+sf::Vector2f Bullet::getPositionWithoutScatter() {
+    return {shape.getPosition().x - scatter, shape.getPosition().y};
+}
+
 void Bullet::setPosition(float x, float y) {
     shape.setPosition({x, y});
 }
@@ -59,13 +75,25 @@ void Bullet::setTexture(sf::Texture &texture) {
     shape.setTexture(&texture);
 }
 
-void Bullet::setScatter(size_t scatter) {
-    this->scatter = scatter;
+void Bullet::setScatter(int8_t scatterOther) {
+    this->scatter = scatterOther;
     shape.setPosition({shape.getPosition().x + scatter, shape.getPosition().y});
 }
 
-size_t Bullet::getScatter() {
+int8_t Bullet::getScatter() {
     return scatter;
+}
+
+void Bullet::setType(size_t type) {
+    this->type = type;
+}
+
+size_t Bullet::getType() {
+    return type;
+}
+
+void Bullet::setRandomType(size_t typesCount) {
+    type = rand() % typesCount + 1;
 }
 
 #endif // BULLET_HPP

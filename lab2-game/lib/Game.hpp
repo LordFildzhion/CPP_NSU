@@ -66,7 +66,7 @@ Game::Game(sf::RenderWindow &window):
     
     spawner(window, textures, asteroids, bullets, ship),
 
-    printer(window, ship, asteroids, bullets, score, "..\\rec\\arialmt.ttf") {
+    printer(window, ship, asteroids, bullets, score) {
         srand(time(nullptr));
         score = 0;
         gameSpeed = 1.0f;

@@ -3,12 +3,16 @@ add_library(
     GameStarter.hpp
 
     Game.hpp
+
     Textures.hpp
+
     Asteroid.hpp
     Bullet.hpp
     Ship.hpp
+
     Mover.hpp
     Spawner.hpp
+
     GamePrinter.hpp
 
     Menu.hpp

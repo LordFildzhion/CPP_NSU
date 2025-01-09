@@ -149,8 +149,3 @@ TEST(SpawnerTest, BordersAsteroidSpawnPlace) {
 
     EXPECT_EQ(spawner.getBordersAsteroidSpawnPlace(), 100.0f);
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

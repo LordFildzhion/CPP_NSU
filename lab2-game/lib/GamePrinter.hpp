@@ -31,7 +31,7 @@ const char* GamePrinterExceptions::what() const noexcept {
 
 class GamePrinter {
 public:
-    GamePrinter(sf::RenderWindow &window, Ship &ship, std::vector<Asteroid> &asteroids, std::vector<Bullet> &bullets, size_t &score, const std::string &fontPath);
+    GamePrinter(sf::RenderWindow &window, Ship &ship, std::vector<Asteroid> &asteroids, std::vector<Bullet> &bullets, size_t &score, const std::string &fontPath = "../rec/fonts/arialmt.ttf");
 
     void printGame();
 
@@ -39,7 +39,7 @@ public:
 
     void printGameOverScreen();
 
-private:
+protected:
     sf::RenderWindow &window;
     std::string fontPath;
 

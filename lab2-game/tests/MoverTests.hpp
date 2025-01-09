@@ -23,11 +23,8 @@ protected:
     }
 
     void SetUp() override {
-        // Initialize asteroids, bullets, and ship for testing
-        sf::Texture bulletTexture({10, 10});
-
         asteroids.push_back(Asteroid(10, 10));
-        bullets.push_back(Bullet(bulletTexture, 10, 10));
+        bullets.push_back(Bullet(10, 10));
     }
 
     void TearDown() override {
@@ -66,9 +63,4 @@ TEST_F(MoverTest, AddGameSpeed) {
     float initialSpeed = gameSpeed;
     mover->addGameSpeed(0.5f);
     EXPECT_GT(gameSpeed, initialSpeed);
-}
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }

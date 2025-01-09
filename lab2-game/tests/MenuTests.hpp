@@ -63,8 +63,3 @@ TEST_F(MenuTest, CreateLabel) {
     sf::Font font;
     EXPECT_NO_THROW(menu->createLabel("Test", 100, 100, sf::Color::White, font, 50));
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

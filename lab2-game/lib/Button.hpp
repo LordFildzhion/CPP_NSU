@@ -38,7 +38,7 @@ private:
     float size;
 };
 
-Button::Button(sf::RenderWindow &window, const std::string &message) : window(window), font("..\\rec\\arialmt.ttf"), text(font, message) {
+Button::Button(sf::RenderWindow &window, const std::string &message) : window(window), font("..\\rec\\fonts\\arialmt.ttf"), text(font, message) {
     size = 30;
     text.setFont(font);
     text.setCharacterSize(size);

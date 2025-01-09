@@ -13,11 +13,21 @@ enable_testing()
 
 add_executable(
     GameTests
-    MenuTests.cpp
-    GameStarterTests.cpp
-    GameTests.cpp
-    SpawnerTests.cpp
-    MoverTests.cpp
+    mainTests.cpp
+
+    GameStarterTests.hpp
+
+    MenuTests.hpp
+    ButtonTests.hpp
+
+    GameTests.hpp
+    ShipTests.hpp
+    AsteroidTests.hpp
+    BulletTests.hpp
+    SpawnerTests.hpp
+    MoverTests.hpp
+    GamePrinterTests.hpp
+    TexturesTests.hpp
 )
 
 target_link_libraries(

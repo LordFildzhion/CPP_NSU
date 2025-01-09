@@ -1,6 +1,13 @@
 #ifndef ASTEROID_HPP
 #define ASTEROID_HPP
 
+
+namespace Asterod {
+    class Asteroid;
+    size_t ASTEROID_MAX_RADIUS = 20;
+    size_t ASTEROID_MIN_RADIUS = 10;    
+}
+
 #include <SFML/Graphics.hpp>
 
 class Asteroid {
@@ -73,7 +80,7 @@ float Asteroid::getRadius() {
 }
 
 void Asteroid::setRandomRadius() {
-    shape.setRadius(rand() % 20 + 10);
+    shape.setRadius(rand() % Asterod::ASTEROID_MAX_RADIUS + Asterod::ASTEROID_MIN_RADIUS);
 }
 
 void Asteroid::setType(size_t type) {

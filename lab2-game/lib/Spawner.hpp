@@ -60,9 +60,9 @@ asteroidSpawnTime(asteroidSpawnTime), bulletSpawnTime(bulletSpawnTime){
 }
 
 void Spawner::spawnAsteroid() {
-    if (asteroidClock.getElapsedTime().asSeconds() > asteroidSpawnTime) {
+    if (asteroidClock.getElapsedTime().asSeconds() > asteroidSpawnTime || asteroids.empty()) {
         std::pair <float, float> asteroidPosition;
-        asteroidPosition.first = rand() % size_t(window.getSize().x - bordersAsteroidSpawnPlace) + bordersAsteroidSpawnPlace;
+        asteroidPosition.first = rand() % size_t(window.getSize().x - bordersAsteroidSpawnPlace - Asterod::ASTEROID_MAX_RADIUS) + bordersAsteroidSpawnPlace;
         asteroidPosition.second = -bordersAsteroidSpawnPlace;
 
         asteroids.push_back(Asteroid(asteroidPosition.first, asteroidPosition.second));
@@ -76,7 +76,11 @@ void Spawner::spawnAsteroid() {
 void Spawner::spawnBullet(sf::Keyboard::Key key) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) || key == sf::Keyboard::Key::Space) {
         if (bulletClock.getElapsedTime().asSeconds() > bulletSpawnTime) {
-            bullets.push_back(Bullet(textures.getBulletTexture(), ship.getPosition().x + ship.getShape().getRadius(), ship.getPosition().y));
+            bullets.push_back(Bullet(ship.getPosition().x + ship.getShape().getRadius(), ship.getPosition().y));
+
+            bullets.back().setRandomType(textures.getBulletTextures().size());
+            bullets.back().setTexture(textures.getBulletTextures()[bullets.back().getType() - 1]);
+
             bulletClock.restart();
         }
     }

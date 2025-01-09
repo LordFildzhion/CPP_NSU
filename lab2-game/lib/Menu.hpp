@@ -24,7 +24,7 @@ const char* MenuException::what() const noexcept {
 
 class Menu {
 public:
-    Menu(sf::RenderWindow &window);
+    Menu(sf::RenderWindow &window, const std::string &fontPath);
 
     void draw();
 
@@ -49,10 +49,10 @@ protected:
     Button exitButton;
 };
 
-Menu::Menu(sf::RenderWindow &window):
-window(window), font("..\\rec\\arialmt.ttf"), lable(font),
+Menu::Menu(sf::RenderWindow &window, const std::string &fontPath = "..\\rec\\fonts\\arialmt.ttf") :
+window(window), font(fontPath), lable(font),
 startButton(window, "Start"), exitButton(window, "Exit") {
-    if (!font.openFromFile("..\\rec\\arialmt.ttf")) {
+    if (!font.openFromFile(fontPath)) {
         throw MenuException("ERROR!!!\nMENU::MENU:: Can't open font file\n");
     }
 

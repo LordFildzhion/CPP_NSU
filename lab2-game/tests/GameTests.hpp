@@ -33,7 +33,7 @@ public:
 class MockBullet : public Bullet {
 public:
 
-    MockBullet(sf::Texture &texture, float x, float y) : Bullet(texture, x, y) {}
+    MockBullet(sf::Texture &texture, float x, float y) : Bullet(x, y) {}
 
     sf::FloatRect getGlobalBounds() const { return sf::FloatRect({0, 0}, {10, 10}); }
     sf::Vector2f getPosition() const { return sf::Vector2f({0, 0}); }
@@ -193,9 +193,4 @@ TEST(GameTest, CheckBulletOutOfBounds) {
 
     game.checkBulletOutOfBounds();
     EXPECT_EQ(game.getBullets().size(), 0);
-}
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
 }
