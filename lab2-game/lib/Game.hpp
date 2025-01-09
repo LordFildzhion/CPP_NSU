@@ -18,6 +18,9 @@
 #include "Spawner.hpp"
 #include "GamePrinter.hpp"
 
+namespace GameValues {
+    const float GAME_SPEED_PARAMETR = 1000.0f;
+};
 
 // Класс игры
 class Game {
@@ -31,8 +34,6 @@ protected:
     Ship ship;
     std::vector<Asteroid> asteroids;
     std::vector<Bullet> bullets;
-
-    Textures textures;
 
     size_t score;
     float gameSpeed;
@@ -60,17 +61,17 @@ protected:
 };
 
 Game::Game(sf::RenderWindow &window):
-    window(window), ship(), asteroids(), bullets(), textures(),
+    window(window),
 
     mover(window, asteroids, bullets, ship, gameSpeed),
     
-    spawner(window, textures, asteroids, bullets, ship),
+    spawner(window, asteroids, bullets, ship),
 
     printer(window, ship, asteroids, bullets, score) {
         srand(time(nullptr));
         score = 0;
         gameSpeed = 1.0f;
-        gameSpeedParametr = 1000.0f;
+        gameSpeedParametr = GameValues::GAME_SPEED_PARAMETR;
         isGameOver = false;
     
 }

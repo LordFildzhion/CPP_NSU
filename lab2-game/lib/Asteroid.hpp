@@ -1,11 +1,10 @@
 #ifndef ASTEROID_HPP
 #define ASTEROID_HPP
 
-
-namespace Asterod {
-    class Asteroid;
+namespace AsteroidValues {
     size_t ASTEROID_MAX_RADIUS = 20;
     size_t ASTEROID_MIN_RADIUS = 10;    
+
 }
 
 #include <SFML/Graphics.hpp>
@@ -16,7 +15,7 @@ public:
 
     void move(float dy);
 
-    sf::CircleShape getShape();
+    sf::CircleShape& getShape();
 
     const sf::CircleShape& getShape() const;
 
@@ -30,23 +29,22 @@ public:
 
     void setRandomRadius();
 
-    void setType(size_t type);
+    void setType(int8_t type);
 
-    void setRandomAsteroid();
+    void setRandomAsteroid(size_t typesCount);
 
-    size_t getType();
+    int8_t getType();
 
-    void setRandomType();
+    void setRandomType(size_t typesCount);
 
     void setTexture(sf::Texture &texture);
 
 private:
     sf::CircleShape shape;
     size_t type;
-    sf::Texture texture;
 };
 
-Asteroid::Asteroid(float x, float y) : shape(20.0f) {
+Asteroid::Asteroid(float x, float y) : shape(AsteroidValues::ASTEROID_MAX_RADIUS, 8) {
     shape.setPosition({x, y});
     type = 1;
 }
@@ -55,7 +53,7 @@ void Asteroid::move(float dy) {
     shape.move({0, dy});
 }
 
-sf::CircleShape Asteroid::getShape() {
+sf::CircleShape& Asteroid::getShape() {
     return shape;
 }
 
@@ -80,28 +78,27 @@ float Asteroid::getRadius() {
 }
 
 void Asteroid::setRandomRadius() {
-    shape.setRadius(rand() % Asterod::ASTEROID_MAX_RADIUS + Asterod::ASTEROID_MIN_RADIUS);
+    shape.setRadius(rand() % AsteroidValues::ASTEROID_MAX_RADIUS + AsteroidValues::ASTEROID_MIN_RADIUS);
 }
 
-void Asteroid::setType(size_t type) {
+void Asteroid::setType(int8_t type) {
     this->type = type;
 }
 
-void Asteroid::setRandomAsteroid() {
+void Asteroid::setRandomAsteroid(size_t typesCount) {
     setRandomRadius();
-    setRandomType();
+    setRandomType(typesCount);
 }
 
-size_t Asteroid::getType() {
+int8_t Asteroid::getType() {
     return type;
 }
 
-void Asteroid::setRandomType() {
-    type = rand() % 3 + 1;
+void Asteroid::setRandomType(size_t typesCount) {
+    type = rand() % typesCount + 1;
 }
 
 void Asteroid::setTexture(sf::Texture &texture) {
-    this->texture = texture;
     shape.setTexture(&texture);
 }
 

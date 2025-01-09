@@ -28,7 +28,6 @@ public:
 private:
     sf::CircleShape shape;
     size_t type;
-    sf::Texture texture;
 };
 
 Ship::Ship(float x, float y, size_t type) : shape(50.0f, 8) {

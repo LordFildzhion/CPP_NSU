@@ -46,7 +46,7 @@ TEST(AsteroidTest, SetType) {
 
 TEST(AsteroidTest, SetRandomType) {
     Asteroid asteroid(100.0f, 200.0f);
-    asteroid.setRandomType();
+    asteroid.setRandomType(3);
     size_t type = asteroid.getType();
     EXPECT_GE(type, 1);
     EXPECT_LE(type, 3);
@@ -61,7 +61,7 @@ TEST(AsteroidTest, SetTexture) {
 
 TEST(AsteroidTest, SetRandomAsteroid) {
     Asteroid asteroid(100.0f, 200.0f);
-    asteroid.setRandomAsteroid();
+    asteroid.setRandomAsteroid(3);
     float radius = asteroid.getRadius();
     size_t type = asteroid.getType();
     EXPECT_GE(radius, 10.0f);

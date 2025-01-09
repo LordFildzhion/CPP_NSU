@@ -1,12 +1,6 @@
-#include "../lib/GameStarter.hpp"
+#include "GameStarter.hpp"
 
 #include <SFML/Graphics.hpp> 
-
-#include <vector> 
-#include <cstdlib> 
-#include <ctime> 
-#include <optional>
-#include <iostream>
  
 int main() { 
     // Инициализация окна 

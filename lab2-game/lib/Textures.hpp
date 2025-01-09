@@ -54,14 +54,12 @@ Textures::Textures() {
 }
 
 void Textures::loadShipTexture(std::string pathToShips) {
-    std::filesystem::path pathToShips_{pathToShips};
-    if (!std::filesystem::exists(pathToShips_)) {
+    if (!std::filesystem::exists(pathToShips)) {
         throw TexturesException("ERROR!!!\nTEXTURES::LOADSHIPTEXTURE:Can't find path to ship textures\n");
     }
 
-    for (const auto &entry : std::filesystem::directory_iterator(pathToShips_)) {
+    for (const auto &entry : std::filesystem::directory_iterator(pathToShips)) {
         sf::Texture shipTexture;
-        std::cout << entry.path().string() << std::endl;
         if (!shipTexture.loadFromFile(entry.path().string())) {
             throw TexturesException("ERROR!!!\nTEXTURES::LOADSHIPTEXTURE:Can't load ship texture from file\n");
         }

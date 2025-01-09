@@ -3,10 +3,17 @@
 
 #include <SFML/Graphics.hpp>
 
+namespace BulletValues {
+    const size_t BULLET_SCATTER = 10;
+    const float BULLET_RADIUS = 10.0f;
+    const size_t BULLET_COUNT_ANGLE = 5;
+    const size_t BULLET_TYPE_DEFAULT = 1;
+    const int8_t BULLET_SCATTER_DEFAULT = -1;
+};
 
 class Bullet {
 public:
-    Bullet(float x, float y, size_t typeOther = 1, int8_t scatterOther = -1);
+    Bullet(float x, float y, size_t typeOther = BulletValues::BULLET_TYPE_DEFAULT, int8_t scatterOther = BulletValues::BULLET_SCATTER_DEFAULT);
 
     void move(float distanceY);
 
@@ -20,7 +27,7 @@ public:
 
     void setPosition(float x, float y);
 
-    void setTexture(sf::Texture &texture);
+    void setTexture(sf::Texture &textureOther);
 
     void setScatter(int8_t scatterOther);
 
@@ -38,10 +45,11 @@ private:
     size_t type;
 };
 
-Bullet::Bullet(float x, float y, size_t typeOther, int8_t scatterOther) : shape(10.0f, 5) {
+Bullet::Bullet(float x, float y, size_t typeOther, int8_t scatterOther) : shape(BulletValues::BULLET_RADIUS, BulletValues::BULLET_COUNT_ANGLE) {
     if (scatterOther < 0) {
-        scatterOther = (rand() % 10) - (rand() % 10);
+        scatterOther = (rand() % BulletValues::BULLET_SCATTER) - (rand() % BulletValues::BULLET_SCATTER);
     }
+
     this->type = typeOther;
     this->scatter = scatterOther;
     shape.setPosition({x + scatter, y});

@@ -9,11 +9,11 @@
 class TestSpawner: public Spawner {
 public:
     TestSpawner(
-        sf::RenderWindow &window, Textures &textures,
+        sf::RenderWindow &window,
         std::vector<Asteroid> &asteroids,
         std::vector<Bullet> &bullets, Ship &ship
     ):
-    Spawner(window, textures, asteroids, bullets, ship) {}
+    Spawner(window, asteroids, bullets, ship) {}
 
     void setAsteroids(std::vector<Asteroid> &asteroids) {
         this->asteroids = asteroids;
@@ -63,10 +63,6 @@ public:
         Spawner::spawnAsteroid();
     }
 
-    void spawnBullet() {
-        Spawner::spawnBullet();
-    }
-
     void spawnShip() {
         Spawner::spawnShip();
     }
@@ -74,16 +70,14 @@ public:
     void spawnBullet(sf::Keyboard::Key key) {
         Spawner::spawnBullet(key);
     }
-
 };
 
 TEST(SpawnerTest, SpawnAsteroid) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    Textures textures;
     std::vector<Asteroid> asteroids;
     std::vector<Bullet> bullets;
     Ship ship;
-    TestSpawner spawner(window, textures, asteroids, bullets, ship);
+    TestSpawner spawner(window, asteroids, bullets, ship);
 
     size_t initialSize = asteroids.size();
     spawner.spawnAsteroid();
@@ -92,11 +86,10 @@ TEST(SpawnerTest, SpawnAsteroid) {
 
 TEST(SpawnerTest, SpawnBullet) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    Textures textures;
     std::vector<Asteroid> asteroids;
     std::vector<Bullet> bullets;
     Ship ship;
-    TestSpawner spawner(window, textures, asteroids, bullets, ship);
+    TestSpawner spawner(window, asteroids, bullets, ship);
 
     size_t initialSize = bullets.size();
     spawner.spawnBullet(sf::Keyboard::Key::Space);
@@ -105,21 +98,19 @@ TEST(SpawnerTest, SpawnBullet) {
 
 TEST(SpawnerTest, SpawnShip) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    Textures textures;
     std::vector<Asteroid> asteroids;
     std::vector<Bullet> bullets;
     Ship ship;
-    TestSpawner spawner(window, textures, asteroids, bullets, ship);
+    TestSpawner spawner(window, asteroids, bullets, ship);
     EXPECT_NO_THROW(spawner.spawnShip());
 }
 
 TEST(SpawnerTest, AddAsteroidSpawnTime) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    Textures textures;
     std::vector<Asteroid> asteroids;
     std::vector<Bullet> bullets;
     Ship ship;
-    TestSpawner spawner(window, textures, asteroids, bullets, ship);
+    TestSpawner spawner(window, asteroids, bullets, ship);
 
     float initialSpawnTime = spawner.getAsteroidSpawnTime();
     spawner.addAsteroidSpawnTime(0.5f);
@@ -128,11 +119,10 @@ TEST(SpawnerTest, AddAsteroidSpawnTime) {
 
 TEST(SpawnerTest, AddBulletSpawnTime) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    Textures textures;
     std::vector<Asteroid> asteroids;
     std::vector<Bullet> bullets;
     Ship ship;
-    TestSpawner spawner(window, textures, asteroids, bullets, ship);
+    TestSpawner spawner(window, asteroids, bullets, ship);
 
     float initialSpawnTime = spawner.getBulletSpawnTime();
     spawner.addBulletSpawnTime(0.5f);
@@ -141,11 +131,10 @@ TEST(SpawnerTest, AddBulletSpawnTime) {
 
 TEST(SpawnerTest, BordersAsteroidSpawnPlace) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    Textures textures;
     std::vector<Asteroid> asteroids;
     std::vector<Bullet> bullets;
     Ship ship;
-    TestSpawner spawner(window, textures, asteroids, bullets, ship);
+    TestSpawner spawner(window, asteroids, bullets, ship);
 
     EXPECT_EQ(spawner.getBordersAsteroidSpawnPlace(), 100.0f);
 }
