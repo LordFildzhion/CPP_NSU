@@ -28,7 +28,7 @@ class Textures {
 public:
     Textures();
 
-    void loadShipTexture(std::string pathToShips = "../rec/textures/ship/");
+    void loadShipTexture(std::string pathToShips = "../rec/textures/ship");
 
     void loadAsteroidTexture(std::string pathToAsteroids = "../rec/textures/asteroid");
 
