@@ -1,37 +1,39 @@
-#ifndef BACK_GROUND_HPP
-#define BACK_GROUND_HPP
+#ifndef BACKGROUND_HPP
+#define BACKGROUND_HPP
 
 #include <vector>
-
 #include <SFML/Graphics.hpp>
-
 #include "BackgroundElement.hpp"
-#include "BackgroundSpawner.hpp"
-#include "BackgroundMover.hpp"
-#include "BackgroundPrinter.hpp"
+#include "Spawner.hpp"
+#include "Mover.hpp"
+#include "Printer.hpp"
 
-class BackGround {
+class Background {
  public:
-    explicit BackGround(sf::RenderWindow &window);
+    static Background* getInstance(sf::RenderWindow &window);
 
-    void setElements(std::vector<BackGroundElement> &elements);
+    void setElements(std::vector<BackgroundElement> &elements);
 
-    std::vector<BackGroundElement> &getElements();
+    std::vector<BackgroundElement> &getElements();
 
     void update();
 
-    bool backroundIsCompleted();
+    bool isCompleted();
 
     void restart();
 
- protected:
+ private:
+    explicit Background(sf::RenderWindow &window);
+
+    static Background *instance;
+
     bool completed;
 
     sf::RenderWindow &window;
 
-    BackGroundSpawner spawner;
-    BackGroundMover mover;
-    BackGroundPrinter printer;
+    Spawner spawner;
+    Mover mover;
+    Printer printer;
 
     void spawnElements(int32_t elementsCount = -1);
 
@@ -41,56 +43,69 @@ class BackGround {
 
     void checkOutOfBounds();
 
-    std::vector<BackGroundElement> elements;
+    std::vector<BackgroundElement> elements;
+
+    Background(const Background&) = delete;
+    Background& operator=(const Background&) = delete;
 };
 
-BackGround::BackGround(sf::RenderWindow &window) : window(window), spawner(window, elements), mover(window, elements), printer(window, elements) {
+Background* Background::instance = nullptr;
+
+Background* Background::getInstance(sf::RenderWindow &window) {
+    if (instance == nullptr) {
+        instance = new Background(window);
+    }
+
+    return instance;
+}
+
+Background::Background(sf::RenderWindow &window) : window(window), spawner(window), printer(window), mover(window) {
     completed = false;
 }
 
-void BackGround::setElements(std::vector<BackGroundElement> &elements) {
+void Background::setElements(std::vector<BackgroundElement> &elements) {
     this->elements = elements;
 }
 
-std::vector<BackGroundElement> &BackGround::getElements() {
+std::vector<BackgroundElement> &Background::getElements() {
     return elements;
 }
 
-void BackGround::update() {
+void Background::update() {
     spawnElements();
     moveElements();
     printElements();
     checkOutOfBounds();
 }
 
-bool BackGround::backroundIsCompleted() {
+bool Background::isCompleted() {
     return completed;
 }
 
-void BackGround::restart() {
+void Background::restart() {
     elements.clear();
     completed = false;
 }
 
-void BackGround::spawnElements(int32_t elementsCount) {
-    spawner.spawnElements(elementsCount);
+void Background::spawnElements(int32_t elementsCount) {
+    spawner.spawnBackgroundElements(elements, elementsCount);
 }
 
-void BackGround::moveElements() {
-    mover.moveElements();
+void Background::moveElements() {
+    mover.moveBackground(elements);
 }
 
-void BackGround::printElements() {
-    printer.printElements();
+void Background::printElements() {
+    printer.printBackground(elements);
 }
 
-void BackGround::checkOutOfBounds() {
+void Background::checkOutOfBounds() {
     for (size_t i = 0; i < elements.size(); i++) {
-        if (elements.at(i).getShape().getPosition().x <= -static_cast<float>(BackGroundElementValues::SPAWN_BORDER)) {
+        if (elements.at(i).getShape().getPosition().x <= -static_cast<float>(BackgroundElementValues::SPAWN_BORDER)) {
             elements.erase(elements.begin() + i);
             completed = true;
         }
     }
 }
 
-#endif  // BACK_GROUND_HPP
+#endif  // BACKGROUND_HPP

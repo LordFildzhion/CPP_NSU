@@ -5,9 +5,23 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "Text.hpp"
+
+namespace ButtonValues {
+    const sf::Color DEFAULT_COLOR       = sf::Color::White;
+    const float DEFAULT_SIZE            = 30.0f;
+    const sf::Vector2f DEFAULT_POSITION = {0, 0};
+}
+
 class Button {
  public:
-    Button(sf::RenderWindow &window, const std::string &message);
+    Button(sf::RenderWindow &window, const std::string &message, sf::Font font);
+
+    Button(sf::RenderWindow &window, const std::string &message, sf::Font font, sf::Vector2f position, sf::Color fillColor, float size);
+
+    Button(const Button &button) = default;
+
+    Button &operator=(const Button &button) = default;
 
     void setMessage(const std::string &message);
 
@@ -21,34 +35,30 @@ class Button {
 
     void setFillColor(const sf::Color &color);
 
-    void setOutlineColor(const sf::Color &color);
-
-    void setOutlineThickness(float thickness);
-
     void setSize(const float size);
 
     sf::Vector2f getPosition();
 
     sf::Vector2f getSize();
 
-    sf::Text getText();
+    sf::Text getSFMLText() const;
+
 
  private:
     sf::RenderWindow &window;
-    sf::Font font;
-    sf::Text text;
-    float size;
+    Text text;
 };
 
-Button::Button(sf::RenderWindow &window, const std::string &message) : window(window), font("..\\rec\\fonts\\arialmt.ttf"), text(font, message) {
-    size = 30;
-    text.setFont(font);
-    text.setCharacterSize(size);
-    text.setFillColor(sf::Color::White);
+Button::Button(sf::RenderWindow &window, const std::string &message, sf::Font font) : window(window) {
+    text = Text(message, ButtonValues::DEFAULT_POSITION, ButtonValues::DEFAULT_COLOR, font, ButtonValues::DEFAULT_SIZE);
+}
+
+Button::Button(sf::RenderWindow &window, const std::string &message, sf::Font font, sf::Vector2f position, sf::Color fillColor, float size) : window(window) {
+    text = Text(message, position, fillColor, font, size);
 }
 
 void Button::setMessage(const std::string &message) {
-    text.setString(message);
+    text.setMessage(message);
 }
 
 void Button::setPosition(sf::Vector2f position) {
@@ -56,7 +66,7 @@ void Button::setPosition(sf::Vector2f position) {
 }
 
 void Button::draw() {
-    window.draw(text);
+    text.draw(window);
 }
 
 bool Button::isPressed() {
@@ -71,16 +81,8 @@ void Button::setFillColor(const sf::Color &color) {
     text.setFillColor(color);
 }
 
-void Button::setOutlineColor(const sf::Color &color) {
-    text.setOutlineColor(color);
-}
-
-void Button::setOutlineThickness(float thickness) {
-    text.setOutlineThickness(thickness);
-}
-
 void Button::setSize(const float size) {
-    text.setCharacterSize(size);
+    text.setSize(size);
 }
 
 sf::Vector2f Button::getPosition() {
@@ -91,8 +93,8 @@ sf::Vector2f Button::getSize() {
     return {text.getGlobalBounds().size.x, text.getGlobalBounds().size.y};
 }
 
-sf::Text Button::getText() {
-    return text;
+sf::Text Button::getSFMLText() const {
+    return text.getText();
 }
 
 #endif  // BUTTON_HPP

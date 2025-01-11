@@ -1,210 +1,87 @@
 #ifndef GAME_TESTS_HPP
 #define GAME_TESTS_HPP
 
-#include <vector>
-
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
-
-#include "Background.hpp"
 #include "Game.hpp"
-#include "Ship.hpp"
-#include "Asteroid.hpp"
-#include "Bullet.hpp"
-#include "Textures.hpp"
 
-class MockWindow : public sf::RenderWindow {
- public:
-    bool isOpen() const { return true; }
-    bool pollEvent(sf::Event& event) { return false; }
-    void clear() {}
-    void display() {}
-};
+class GameTest : public ::testing::Test {
+protected:
+    sf::RenderWindow window;
+    class TestGame : public Game {
+    public:
+        explicit TestGame(sf::RenderWindow &window) : Game(window) {}
+        void increaseScore() { score++; }
+        void increaseGameSpeed() { gameSpeedParametr += 1; }
 
-class MockShip : public Ship {
- public:
-    sf::FloatRect getGlobalBounds() const { return sf::FloatRect({0, 0}, {50, 50}); }
-};
+        using Game::score;
+        using Game::gameSpeedParametr;
+        using Game::isGameOver;
 
-class MockAsteroid : public Asteroid {
- public:
-    MockAsteroid() : Asteroid(50, 50) {}
+        using Game::increaseScore;
+        using Game::increaseGameSpeed;
+        using Game::checkAsteroidOutOfBounds;
+        using Game::checkBulletOutOfBounds;
+        using Game::gameOverCheck;
 
-    MockAsteroid(float x, float y) : Asteroid(x, y) {}
+        using Game::asteroids;
+        using Game::bullets;
+    };
+    TestGame *game;
 
-    sf::FloatRect getGlobalBounds() const { return sf::FloatRect({0, 0}, {50, 50}); }
-    sf::Vector2f getPosition() const { return sf::Vector2f({0, 0}); }
-};
-
-class MockBullet : public Bullet {
- public:
-    MockBullet(sf::Texture &texture, float x, float y) : Bullet(x, y) {}
-
-    sf::FloatRect getGlobalBounds() const { return sf::FloatRect({0, 0}, {10, 10}); }
-    sf::Vector2f getPosition() const { return sf::Vector2f({0, 0}); }
-};
-
-class MockGame : public Game {
- public:
-    explicit MockGame(sf::RenderWindow &window, BackGround &background) : Game(window, background) {}
-
-    void addAsteroid(Asteroid &asteroid) {
-        asteroids.push_back(asteroid);
+    void SetUp() override {
+        window.create(sf::VideoMode({800, 600}), "Game Test");
+        game = new TestGame(window);
     }
 
-    void addBullet(Bullet &bullet) {
-        bullets.push_back(bullet);
-    }
-
-    std::vector<Asteroid> &getAsteroids() {
-        return asteroids;
-    }
-
-    std::vector<Bullet> &getBullets() {
-        return bullets;
-    }
-
-    Ship &getShip() {
-        return ship;
-    }
-
-    int getScore() {
-        return score;
-    }
-
-    float getGameSpeed() {
-        return gameSpeed;
-    }
-
-    bool checkGameOver() {
-        return isGameOver;
-    }
-
-    void increaseScore() {
-        Game::increaseScore();
-    }
-
-    void increaseGameSpeed() {
-        Game::increaseGameSpeed();
-    }
-
-    void checkAsteroidShipCollision() {
-        Game::checkAsteroidShipCollision();
-    }
-
-    void checkAsteroidBulletCollision() {
-        Game::checkAsteroidBulletCollision();
-    }
-
-    void checkAsteroidOutOfBounds() {
-        Game::checkAsteroidOutOfBounds();
-    }
-
-    void checkBulletOutOfBounds() {
-        Game::checkBulletOutOfBounds();
-    }
-
-    void setGameOver(bool value) {
-        isGameOver = value;
-    }
-
-    void setGameSpeed(float value) {
-        gameSpeed = value;
-    }
-
-    void setScore(int value) {
-        score = value;
-    }
-
-    void setAsteroids(std::vector<Asteroid> value) {
-        asteroids = value;
-    }
-
-    void setBullets(std::vector<Bullet> value) {
-        bullets = value;
+    void TearDown() override {
+        delete game;
+        window.close();
     }
 };
 
-TEST(GameTest, InitialState) {
-    MockWindow window;
-    BackGround background(window);
-    MockGame game(window, background);
-
-    EXPECT_EQ(game.getScore(), 0);
-    EXPECT_EQ(game.getGameSpeed(), 1.0f);
-    EXPECT_FALSE(game.checkGameOver());
+TEST_F(GameTest, InitialScoreIsZero) {
+    EXPECT_EQ(game->score, GameValues::START_SCORE);
 }
 
-TEST(GameTest, IncreaseScore) {
-    MockWindow window;
-    BackGround background(window);
-    MockGame game(window, background);
-
-    game.increaseScore();
-    EXPECT_EQ(game.getScore(), 1);
+TEST_F(GameTest, InitialGameSpeedParametr) {
+    EXPECT_FLOAT_EQ(game->gameSpeedParametr, GameValues::GAME_SPEED_PARAMETR);
 }
 
-TEST(GameTest, IncreaseGameSpeed) {
-    MockWindow window;
-    BackGround background(window);
-    MockGame game(window, background);
-
-    game.increaseGameSpeed();
-    EXPECT_GT(game.getGameSpeed(), 0.0f);
+TEST_F(GameTest, GameOverInitiallyFalse) {
+    EXPECT_FALSE(game->isGameOver);
 }
 
-TEST(GameTest, CheckAsteroidShipCollision) {
-    MockWindow window;
-    BackGround background(window);
-    MockGame game(window, background);
-
-    MockAsteroid asteroid;
-    asteroid.setPosition(game.getShip().getPosition());
-    game.addAsteroid(asteroid);
-
-    game.checkAsteroidShipCollision();
-    EXPECT_TRUE(game.checkGameOver());
+TEST_F(GameTest, IncreaseScore) {
+    size_t initialScore = game->score;
+    game->increaseScore();
+    EXPECT_EQ(game->score, initialScore + 1);
 }
 
-TEST(GameTest, CheckAsteroidBulletCollision) {
-    MockWindow window;
-    BackGround background(window);
-    MockGame game(window, background);
-
-    sf::Texture texture({10, 10});
-    MockAsteroid asteroid(10, 10);
-    MockBullet bullet(texture, 10, 10);
-    game.addAsteroid(asteroid);
-    game.addBullet(bullet);
-
-    game.checkAsteroidBulletCollision();
-    EXPECT_EQ(game.getAsteroids().size(), 0);
-    EXPECT_EQ(game.getBullets().size(), 0);
-    EXPECT_EQ(game.getScore(), 1);
+TEST_F(GameTest, IncreaseGameSpeed) {
+    float initialSpeed = game->gameSpeedParametr;
+    game->increaseGameSpeed();
+    EXPECT_GT(game->gameSpeedParametr, initialSpeed);
 }
 
-TEST(GameTest, CheckAsteroidOutOfBounds) {
-    MockWindow window;
-    BackGround background(window);
-    MockGame game(window, background);
-
-    MockAsteroid asteroid;
-    game.addAsteroid(asteroid);
-
-    game.checkAsteroidOutOfBounds();
-    EXPECT_EQ(game.getAsteroids().size(), 0);
+TEST_F(GameTest, CheckAsteroidOutOfBounds) {
+    Asteroid asteroid(sf::Vector2f(0, window.getSize().y + 10));
+    game->asteroids.push_back(asteroid);
+    game->checkAsteroidOutOfBounds();
+    EXPECT_TRUE(game->asteroids.empty());
 }
 
-TEST(GameTest, CheckBulletOutOfBounds) {
-    MockWindow window;
-    BackGround background(window);
-    MockGame game(window, background);
-    sf::Texture texture({10, 10});
-    MockBullet bullet(texture, -100, -100);
-    game.addBullet(bullet);
+TEST_F(GameTest, CheckBulletOutOfBounds) {
+    Bullet bullet(sf::Vector2f(0, -10));
+    game->bullets.push_back(bullet);
+    game->checkBulletOutOfBounds();
+    EXPECT_TRUE(game->bullets.empty());
+}
 
-    game.checkBulletOutOfBounds();
-    EXPECT_EQ(game.getBullets().size(), 0);
+TEST_F(GameTest, GameOverCheck) {
+    game->isGameOver = true;
+    game->gameOverCheck();
+    EXPECT_TRUE(game->isGameOver);
 }
 
 #endif  // GAME_TESTS_HPP

@@ -1,4 +1,4 @@
-#include "GameStarter.hpp"
+#include "Starter.hpp"
 
 #include <SFML/Graphics.hpp>
 
@@ -8,7 +8,7 @@ int main() {
     window.setFramerateLimit(60);
 
     // Инициализация игрового движка
-    GameStarter start(window);
+    Starter start(window);
     start.run();
 
     return 0;

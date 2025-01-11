@@ -4,8 +4,8 @@
 #include <utility>
 
 namespace AsteroidValues {
-    const size_t MAX_RADIUS = 20;
-    const size_t MIN_RADIUS = 10;
+    const size_t MAX_RADIUS      = 20;
+    const size_t MIN_RADIUS      = 10;
     const size_t MAX_ANGLE_COUNT = 10;
     const size_t MIN_ANGLE_COUNT = 6;
 }
@@ -94,7 +94,7 @@ float Asteroid::getRadius() {
 }
 
 void Asteroid::setRandomRadius() {
-    shape.setRadius(rand() % AsteroidValues::MAX_RADIUS + AsteroidValues::MIN_RADIUS);
+    shape.setRadius(rand() % AsteroidValues::MAX_RADIUS + AsteroidValues::MIN_RADIUS - 1);
 }
 
 void Asteroid::setType(int8_t type) {

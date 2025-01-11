@@ -3,23 +3,22 @@
 
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
-
 #include "BackgroundElement.hpp"
 
-TEST(BackgroundElementTests, DefaultConstructor) {
+TEST(BackgroundElementTest, DefaultConstructor) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    BackGroundElement element(window);
+    BackgroundElement element(window);
 
-    EXPECT_EQ(element.getShape().getFillColor(), BackGroundElementValues::DEFAULT_COLOR);
-    EXPECT_GE(element.getShape().getRadius(), BackGroundElementValues::MIN_RADIUS);
-    EXPECT_LE(element.getShape().getRadius(), BackGroundElementValues::MAX_RADIUS);
-    EXPECT_GE(element.getShape().getPointCount(), BackGroundElementValues::MIN_ANGLE_COUNT);
-    EXPECT_LE(element.getShape().getPointCount(), BackGroundElementValues::MAX_ANGLE_COUNT);
+    EXPECT_EQ(element.getShape().getFillColor(), BackgroundElementValues::DEFAULT_COLOR);
+    EXPECT_GE(element.getShape().getRadius(), BackgroundElementValues::MIN_RADIUS);
+    EXPECT_LE(element.getShape().getRadius(), BackgroundElementValues::MAX_RADIUS);
+    EXPECT_GE(element.getShape().getPointCount(), BackgroundElementValues::MIN_ANGLE_COUNT);
+    EXPECT_LE(element.getShape().getPointCount(), BackgroundElementValues::MAX_ANGLE_COUNT);
 }
 
-TEST(BackgroundElementTests, Move) {
+TEST(BackgroundElementTest, Move) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    BackGroundElement element(window);
+    BackgroundElement element(window);
     sf::Vector2f initialPosition = element.getShape().getPosition();
 
     element.move(5.0f);
@@ -27,36 +26,36 @@ TEST(BackgroundElementTests, Move) {
     EXPECT_EQ(element.getShape().getPosition().y, initialPosition.y);
 }
 
-TEST(BackgroundElementTests, SetFillColor) {
+TEST(BackgroundElementTest, SetFillColor) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    BackGroundElement element(window);
+    BackgroundElement element(window);
     sf::Color newColor = sf::Color::Red;
 
     element.setFillColor(newColor);
     EXPECT_EQ(element.getShape().getFillColor(), newColor);
 }
 
-TEST(BackgroundElementTests, SetRadius) {
+TEST(BackgroundElementTest, SetRadius) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    BackGroundElement element(window);
+    BackgroundElement element(window);
     float newRadius = 5.0f;
 
     element.setRadius(newRadius);
     EXPECT_EQ(element.getShape().getRadius(), newRadius);
 }
 
-TEST(BackgroundElementTests, SetPointCount) {
+TEST(BackgroundElementTest, SetPointCount) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    BackGroundElement element(window);
+    BackgroundElement element(window);
     size_t newPointCount = 8;
 
     element.setPointCount(newPointCount);
     EXPECT_EQ(element.getShape().getPointCount(), newPointCount);
 }
 
-TEST(BackgroundElementTests, SetPosition) {
+TEST(BackgroundElementTest, SetPosition) {
     sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    BackGroundElement element(window);
+    BackgroundElement element(window);
     sf::Vector2f newPosition(100.0f, 100.0f);
 
     element.setPosition(newPosition);

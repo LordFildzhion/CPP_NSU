@@ -15,25 +15,27 @@ add_executable(
     GameTests
     mainTests.cpp
 
-    GameStarterTests.hpp
+    CalculatesTests/GameSpeedTests.hpp
+    CalculatesTests/MoverTests.hpp
+    CalculatesTests/PrinterTests.hpp
+    CalculatesTests/SpawnerTests.hpp
 
-    MenuTests.hpp
-    ButtonTests.hpp
+    DataTests/FontsTests.hpp
+    DataTests/ResoursesLoaderTests.hpp
+    DataTests/TexturesTests.hpp
 
-    GameTests.hpp
-    ShipTests.hpp
-    AsteroidTests.hpp
-    BulletTests.hpp
-    SpawnerTests.hpp
-    MoverTests.hpp
-    GamePrinterTests.hpp
-    TexturesTests.hpp
+    GameObjectsTests/AsteroidTests.hpp
+    GameObjectsTests/BulletTests.hpp
+    GameObjectsTests/ShipTests.hpp
+
+    InterfaceElementsTests/ButtonTests.hpp
+    InterfaceElementsTests/TextTests.hpp
 
     BackgroundTests.hpp
-    BackgroundElementTests.hpp
-    BackgroundSpawnerTests.hpp
-    BackGroundMoverTests.hpp
-    BackgroundPrinterTests.hpp
+    BacgroundElementTests.hpp
+
+    GameTests.hpp
+    MenuTests.hpp
 )
 
 target_link_libraries(

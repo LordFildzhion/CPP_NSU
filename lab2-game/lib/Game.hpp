@@ -16,18 +16,21 @@
 #include "Textures.hpp"
 #include "Mover.hpp"
 #include "Spawner.hpp"
-#include "GamePrinter.hpp"
+#include "Printer.hpp"
 #include "Background.hpp"
+#include "Fonts.hpp"
+
+#include "GameSpeed.hpp"
 
 namespace GameValues {
-    const float GAME_SPEED_PARAMETR = 1000.0f;
-    const size_t GAME_OVER_SCREEN_TIME = 3;
-};
+    const float GAME_SPEED_PARAMETR     = 1000.0f;
+    const size_t GAME_OVER_SCREEN_TIME  = 3;
+    const size_t START_SCORE            = 0;
+}
 
-// Класс игры
 class Game {
  public:
-    explicit Game(sf::RenderWindow &window, BackGround &background);
+    explicit Game(sf::RenderWindow &window);
 
     void run();
 
@@ -39,16 +42,16 @@ class Game {
     std::vector<Bullet> bullets;
 
     size_t score;
-    float gameSpeed;
     float gameSpeedParametr;
 
     bool isGameOver;
 
     Mover mover;
     Spawner spawner;
-    GamePrinter printer;
+    Printer printer;
 
-    BackGround background;
+    Background *background;
+    Fonts* fonts;
 
     void increaseGame();
     void increaseGameSpeed();
@@ -65,60 +68,51 @@ class Game {
     void gameOverCheck();
 };
 
-Game::Game(sf::RenderWindow &window, BackGround &background) :
-    window(window), background(background),
+Game::Game(sf::RenderWindow &window): window(window), mover(window), spawner(window), printer(window) {
+    background = Background::getInstance(window);
 
-    mover(window, asteroids, bullets, ship, gameSpeed),
+    fonts = Fonts::getInstance();
 
-    spawner(window, asteroids, bullets, ship),
-
-    printer(window, ship, asteroids, bullets, score) {
     srand(time(nullptr));
-    score = 0;
-    gameSpeed = 1.0f;
+
+    score = GameValues::START_SCORE;
     gameSpeedParametr = GameValues::GAME_SPEED_PARAMETR;
     isGameOver = false;
 }
 
 void Game::run() {
-    std::cout << "Game started" << std::endl;
-
-    spawner.spawnShip();
+    spawner.spawnShip(ship);
 
     while (window.isOpen() && !isGameOver) {
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape)) {
             window.clear();
-            std::cout << "Game closed to menu" << std::endl;
             break;
         }
 
         while (std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
-                std::cout << "Game closed" << std::endl;
                 return;
             }
         }
 
         window.clear();
 
-        mover.moveShip();
+        mover.moveShip(ship);
 
-        spawner.spawnBullet();
-        mover.moveBullet();
+        spawner.spawnBullet(ship, bullets);
+        mover.moveBullet(bullets);
 
-        spawner.spawnAsteroid();
-        mover.moveAsteroids();
+        spawner.spawnAsteroid(asteroids);
+        mover.moveAsteroids(asteroids);
 
         checkCollisions();
 
         gameOverCheck();
 
-        background.update();
+        background->update();
 
-        printer.printGame();
-        
-        printer.printScore();
+        printer.printGame(fonts->getFonts().front(), score, ship, asteroids, bullets);
 
         window.display();
     }
@@ -146,7 +140,7 @@ void Game::increaseScore() {
 }
 
 void Game::increaseAsteroidSpawnTime() {
-    spawner.addAsteroidSpawnTime(-0.01f);
+    spawner.addAsteroidSpawnTime();
 }
 
 void Game::checkAsteroidShipCollision() {
@@ -191,7 +185,7 @@ void Game::checkBulletOutOfBounds() {
 void Game::gameOver() {
     window.clear();
 
-    printer.printGameOverScreen();
+    printer.printGameOverScreen(fonts->getFonts().front(), fonts->getFonts().front(), score);
 
     window.display();
 
@@ -202,7 +196,6 @@ void Game::gameOver() {
 void Game::gameOverCheck() {
     if (isGameOver) {
         window.clear();
-        std::cout << "Game over" << std::endl;
         gameOver();
     }
 }

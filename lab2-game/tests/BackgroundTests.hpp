@@ -3,51 +3,47 @@
 
 #include <gtest/gtest.h>
 #include <SFML/Graphics.hpp>
-
 #include "Background.hpp"
 
-class TestsBackground : public :: BackGround {
- public:
-    explicit TestsBackground(sf::RenderWindow &window) : BackGround(window) {}
+class BackgroundTests : public ::testing::Test {
+protected:
+    sf::RenderWindow window;
+    Background* background;
 
-    using BackGround::spawnElements;
-    using BackGround::moveElements;
-    using BackGround::printElements;
-    using BackGround::checkOutOfBounds;
+    BackgroundTests() : window(sf::VideoMode({800, 600}), "Test Window") {
+        background = Background::getInstance(window);
+    }
+
+    void SetUp() override {
+        background->restart();
+    }
+
+    void TearDown() override {
+        background->restart();
+    }
 };
 
-TEST(BackgroundTests, SpawnElements) {
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    TestsBackground background(window);
-    background.spawnElements();
-    ASSERT_EQ(background.getElements().size(), 1);
+TEST_F(BackgroundTests, SingletonInstance) {
+    Background* instance1 = Background::getInstance(window);
+    Background* instance2 = Background::getInstance(window);
+    ASSERT_EQ(instance1, instance2);
 }
 
-TEST(BackgroundTests, MoveElements) {
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    TestsBackground background(window);
-    background.spawnElements();
-    float firstPosition = background.getElements().back().getShape().getPosition().x;
-    background.moveElements();
-    ASSERT_EQ(background.getElements().back().getShape().getPosition().x, firstPosition - 1);
+TEST_F(BackgroundTests, SetAndGetElements) {
+    std::vector<BackgroundElement> elements;
+    BackgroundElement element(window);
+    elements.emplace_back(element);
+    background->setElements(elements);
+    ASSERT_EQ(background->getElements().size(), 1);
 }
 
-TEST(BackgroundTests, PrintElements) {
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    TestsBackground background(window);
-    background.spawnElements();
-    background.printElements();
-    ASSERT_EQ(background.getElements().back().getShape().getFillColor(), sf::Color::White);
-}
-
-TEST(BackgroundTests, CheckOutOfBounds) {
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "Test Window");
-    TestsBackground background(window);
-    background.spawnElements(1);
-    background.getElements().back().getShape().setPosition({-static_cast<float>(BackGroundSpawnerValues::SPAWN_BORDER) - 1, 0});
-    std::cout << background.getElements().back().getShape().getPosition().x << std::endl;
-    background.checkOutOfBounds();
-    ASSERT_EQ(background.getElements().size(), 0);
+TEST_F(BackgroundTests, RestartBackground) {
+    std::vector<BackgroundElement> elements;
+    BackgroundElement element(window);
+    elements.emplace_back(element);
+    background->setElements(elements);
+    background->restart();
+    ASSERT_TRUE(background->getElements().empty());
 }
 
 #endif  // BACKGROUND_TESTS_HPP

@@ -1,26 +1,26 @@
-#include "GameStarter.hpp"
+#include <gtest/gtest.h>
 
-#include "MenuTests.hpp"
-#include "ButtonTests.hpp"
+#include "CalculatesTests/GameSpeedTests.hpp"
+#include "CalculatesTests/MoverTests.hpp"
+#include "CalculatesTests/PrinterTests.hpp"
+#include "CalculatesTests/SpawnerTests.hpp"
 
-#include "GameTests.hpp"
+#include "DataTests/FontsTests.hpp"
+#include "DataTests/ResoursesLoaderTests.hpp"
+#include "DataTests/TexturesTests.hpp"
 
-#include "TexturesTests.hpp"
+#include "GameObjectsTests/AsteroidTests.hpp"
+#include "GameObjectsTests/BulletTests.hpp"
+#include "GameObjectsTests/ShipTests.hpp"
 
-#include "AsteroidTests.hpp"
-#include "ShipTests.hpp"
-#include "BulletTests.hpp"
-
-#include "SpawnerTests.hpp"
-#include "MoverTests.hpp"
-
-#include "GamePrinterTests.hpp"
+#include "InterfaceElementsTests/ButtonTests.hpp"
+#include "InterfaceElementsTests/TextTests.hpp"
 
 #include "BackgroundTests.hpp"
-#include "BackgroundElementTests.hpp"
-#include "BackgroundSpawnerTests.hpp"
-#include "BackGroundMoverTests.hpp"
-#include "BackgroundPrinterTests.hpp"
+#include "BacgroundElementTests.hpp"
+
+#include "GameTests.hpp"
+#include "MenuTests.hpp"
 
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
