@@ -75,7 +75,6 @@ Spawner::Spawner(sf::RenderWindow &window): window(window) {
 
 void Spawner::spawnAsteroid(std::vector<Asteroid> &asteroids) {
     if (asteroidClock.getElapsedTime().asSeconds() > asteroidSpawnTime || asteroids.empty()) {
-        std::cout << "Asteroid spawn" << std::endl;
 
         sf::Vector2f asteroidPosition;
         asteroidPosition.x = rand() % size_t(window.getSize().x - bordersAsteroidSpawnPlace - AsteroidValues::MAX_RADIUS * 2) + bordersAsteroidSpawnPlace;
@@ -86,15 +85,12 @@ void Spawner::spawnAsteroid(std::vector<Asteroid> &asteroids) {
         asteroids.back().setTexture(textures->getAsteroidTextures()[asteroids.back().getType() - 1]);
 
         asteroidClock.restart();
-
-        std::cout << "Asteroid spawned" << std::endl;
     }
 }
 
 void Spawner::spawnBullet(Ship &ship, std::vector<Bullet> &bullets, sf::Keyboard::Key key) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space) || key == sf::Keyboard::Key::Space) {
         if (bulletClock.getElapsedTime().asSeconds() > bulletSpawnTime || bullets.empty()) {
-            std::cout << "Bullet spawn" << std::endl;
 
             bullets.push_back(Bullet(ship.getPosition().x + ship.getShape().getRadius(), ship.getPosition().y));
 
@@ -102,20 +98,14 @@ void Spawner::spawnBullet(Ship &ship, std::vector<Bullet> &bullets, sf::Keyboard
             bullets.back().setTexture(textures->getBulletTextures()[bullets.back().getType() - 1]);
 
             bulletClock.restart();
-
-            std::cout << "Bullet spawned" << std::endl;
         }
     }
 }
 
 void Spawner::spawnShip(Ship &ship) {
-    std::cout << "Ship spawn" << std::endl;
-
     ship.setPosition(window.getSize().x / 2, window.getSize().y - ship.getShape().getRadius() * 2);
     ship.setRandomType(textures->getShipTextures().size());
     ship.setTexture(textures->getShipTextures()[ship.getType() - 1]);
-
-    std::cout << "Ship spawned" << std::endl;
 }
 
 size_t Spawner::getRandomBackgroundElementCount() {

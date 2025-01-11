@@ -149,10 +149,10 @@ sf::Vector2f Menu::calculateLablePosition(Text &lable) {
 
 sf::Vector2f Menu::calculateButtonPosition(std::string buttonMessage) {
     if (buttonMessage == "Start") {
-        return sf::Vector2f(lable.getPosition().x + lable.getGlobalBounds().size.x / 3, lable.getPosition().y + MenuValues::DEFAULT_BUTTONS_AND_LABLE_GAP);
+        return sf::Vector2f(lable.getPosition().x + lable.getGlobalBounds().size.x / 3, lable.getPosition().y + MenuValues::DEFAULT_BUTTONS_AND_LABLE_GAP + lable.getGlobalBounds().size.y);
     }
 
-    return sf::Vector2f(lable.getPosition().x + lable.getGlobalBounds().size.x / 3,  buttons.at(buttonsID.at(buttonMessage) - 2).getPosition().y + MenuValues::DEFAULT_BUTTONS_GAP);
+    return sf::Vector2f(lable.getPosition().x + lable.getGlobalBounds().size.x / 3,  buttons.at(buttonsID.at(buttonMessage) - 2).getPosition().y + MenuValues::DEFAULT_BUTTONS_GAP + buttons.at(buttonsID.at(buttonMessage) - 2).getSize().y);
 }
 
 #endif  // MENU_HPP
