@@ -8,9 +8,9 @@
 #include "Text.hpp"
 
 namespace ButtonValues {
-    const sf::Color DEFAULT_COLOR       = sf::Color::White;
-    const float DEFAULT_SIZE            = 30.0f;
-    const sf::Vector2f DEFAULT_POSITION = {0, 0};
+    static const sf::Color DEFAULT_COLOR       = sf::Color::White;
+    static const float DEFAULT_SIZE            = 30.0f;
+    static const sf::Vector2f DEFAULT_POSITION = {0, 0};
 }
 
 class Button {

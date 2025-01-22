@@ -12,11 +12,11 @@
 #include "GameSpeed.hpp"
 
 namespace MoverValues {
-    const float DEFAULT_BACKGROUND_MOVE_SPEED   = 1.0f;
-    const float DEFAULT_BULLET_MOVE_SPEED       = 5.0f;
-    const float DEFAULT_ASTEROID_MOVE_SPEED     = 2.0f;
-    const float DEFAULT_SHIP_MOVE_SPEED         = 5.0f;
-    const float DEFAULT_GAME_SPEED              = 1.0f;
+    static const float DEFAULT_BACKGROUND_MOVE_SPEED   = 1.0f;
+    static const float DEFAULT_BULLET_MOVE_SPEED       = 5.0f;
+    static const float DEFAULT_ASTEROID_MOVE_SPEED     = 2.0f;
+    static const float DEFAULT_SHIP_MOVE_SPEED         = 5.0f;
+    static const float DEFAULT_GAME_SPEED              = 1.0f;
 };
 
 class Mover {

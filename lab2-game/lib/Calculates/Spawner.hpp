@@ -12,19 +12,19 @@
 #include "Textures.hpp"
 
 namespace SpawnerValues {
-    const float ASTEROID_SPAWN_TIME                     = 1.0f;
-    const float ASTEROID_SPAWN_TIME_DIFFERENCE          = 0.01f;
-    const float BULLET_SPAWN_TIME                       = 0.25f;
-    const float DEFAULT_BORDERS_ASTEROID_SPAWN_PLACE    = 25.0f;
+    static const float ASTEROID_SPAWN_TIME                     = 1.0f;
+    static const float ASTEROID_SPAWN_TIME_DIFFERENCE          = 0.01f;
+    static const float BULLET_SPAWN_TIME                       = 0.25f;
+    static const float DEFAULT_BORDERS_ASTEROID_SPAWN_PLACE    = 25.0f;
 };
 
 namespace BackgroundSpawnerValues {
-    const size_t MAX_ELEMENT_SPAWN_TIME                 = 20;
-    const size_t MIN_ELEMENT_SPAWN_TIME                 = 15;
-    const size_t MAX_ELEMENT_COUNT                      = 3;
-    const size_t MIN_ELEMENT_COUNT                      = 1;
-    const size_t SPAWN_BORDER                           = 100;
-    const float GENERATION_SPEED                        = 100.0f;
+    static const size_t MAX_ELEMENT_SPAWN_TIME                 = 20;
+    static const size_t MIN_ELEMENT_SPAWN_TIME                 = 15;
+    static const size_t MAX_ELEMENT_COUNT                      = 3;
+    static const size_t MIN_ELEMENT_COUNT                      = 1;
+    static const size_t SPAWN_BORDER                           = 100;
+    static const float GENERATION_SPEED                        = 100.0f;
 };
 
 class Spawner {

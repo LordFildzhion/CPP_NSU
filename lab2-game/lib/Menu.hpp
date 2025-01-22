@@ -28,18 +28,18 @@ const char* MenuException::what() const noexcept {
 }
 
 namespace MenuValues {
-    const float LABLE_SIZE                          = 100.0f;
-    const float START_BUTTON_SIZE                   = 75.0f;
-    const float EXIT_BUTTON_SIZE                    = 75.0f;
-    const sf::Color DEFAULT_LABLE_COLOR             = sf::Color::Red;
-    const sf::Vector2f DEFAULT_LABLE_POSITION       = {0, 0};
-    const sf::Color DEFAULT_BUTTON_COLOR            = sf::Color::White;
-    const sf::Vector2f DEFAULT_BUTTON_POSITION      = {0, 0};
-    const std::string DEFAULT_LABLE_MESSAGE         = "Astro Shooter";
-    const std::string DEFAULT_START_BUTTON_MESSAGE  = "Start";
-    const std::string DEFAULT_EXIT_BUTTON_MESSAGE   = "Exit";
-    const size_t DEFAULT_BUTTONS_GAP                = 50;
-    const size_t DEFAULT_BUTTONS_AND_LABLE_GAP      = 50;
+    static const float LABLE_SIZE                          = 100.0f;
+    static const float START_BUTTON_SIZE                   = 75.0f;
+    static const float EXIT_BUTTON_SIZE                    = 75.0f;
+    static const sf::Color DEFAULT_LABLE_COLOR             = sf::Color::Red;
+    static const sf::Vector2f DEFAULT_LABLE_POSITION       = {0, 0};
+    static const sf::Color DEFAULT_BUTTON_COLOR            = sf::Color::White;
+    static const sf::Vector2f DEFAULT_BUTTON_POSITION      = {0, 0};
+    static const std::string DEFAULT_LABLE_MESSAGE         = "Astro Shooter";
+    static const std::string DEFAULT_START_BUTTON_MESSAGE  = "Start";
+    static const std::string DEFAULT_EXIT_BUTTON_MESSAGE   = "Exit";
+    static const size_t DEFAULT_BUTTONS_GAP                = 50;
+    static const size_t DEFAULT_BUTTONS_AND_LABLE_GAP      = 50;
 }
 
 class Menu {

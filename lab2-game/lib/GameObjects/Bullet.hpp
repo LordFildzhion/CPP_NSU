@@ -6,11 +6,11 @@
 #include <SFML/Graphics.hpp>
 
 namespace BulletValues {
-    const size_t BULLET_SCATTER         = 10;
-    const float BULLET_RADIUS           = 10.0f;
-    const size_t BULLET_COUNT_ANGLE     = 5;
-    const size_t BULLET_TYPE_DEFAULT    = 1;
-    const int8_t BULLET_SCATTER_DEFAULT = -1;
+    static const size_t BULLET_SCATTER         = 10;
+    static const float BULLET_RADIUS           = 10.0f;
+    static const size_t BULLET_COUNT_ANGLE     = 5;
+    static const size_t BULLET_TYPE_DEFAULT    = 1;
+    static const int8_t BULLET_SCATTER_DEFAULT = -1;
 };
 
 class Bullet {

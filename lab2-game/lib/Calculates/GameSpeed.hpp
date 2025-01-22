@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 
 namespace GameSpeedValues {
-    const float DEFAULT_GAME_SPEED = 1.0f;
+    static const float DEFAULT_GAME_SPEED = 1.0f;
 }
 
 class GameSpeed {

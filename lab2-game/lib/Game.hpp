@@ -23,9 +23,9 @@
 #include "GameSpeed.hpp"
 
 namespace GameValues {
-    const float GAME_SPEED_PARAMETR     = 1000.0f;
-    const size_t GAME_OVER_SCREEN_TIME  = 3;
-    const size_t START_SCORE            = 0;
+    static const float GAME_SPEED_PARAMETR     = 1000.0f;
+    static const size_t GAME_OVER_SCREEN_TIME  = 3;
+    static const size_t START_SCORE            = 0;
 }
 
 class Game {

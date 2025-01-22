@@ -6,8 +6,8 @@
 #include <SFML/Graphics.hpp>
 
 namespace ShipValues {
-    const float DEFAULT_SHIP_RADIUS  = 50.0f;
-    const size_t DEFAULT_SHIP_ANGLEs = 8;
+    static const float DEFAULT_SHIP_RADIUS  = 50.0f;
+    static const size_t DEFAULT_SHIP_ANGLEs = 8;
 }
 
 class Ship {

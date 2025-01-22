@@ -4,10 +4,10 @@
 #include <utility>
 
 namespace AsteroidValues {
-    const size_t MAX_RADIUS      = 20;
-    const size_t MIN_RADIUS      = 10;
-    const size_t MAX_ANGLE_COUNT = 10;
-    const size_t MIN_ANGLE_COUNT = 6;
+    static const size_t MAX_RADIUS      = 20;
+    static const size_t MIN_RADIUS      = 10;
+    static const size_t MAX_ANGLE_COUNT = 10;
+    static const size_t MIN_ANGLE_COUNT = 6;
 }
 
 #include <SFML/Graphics.hpp>

@@ -6,12 +6,12 @@
 #include <SFML/Graphics.hpp>
 
 namespace BackgroundElementValues {
-    const size_t MAX_ANGLE_COUNT    = 10;
-    const size_t MIN_ANGLE_COUNT    = 5;
-    const float MAX_RADIUS          = 7.0f;
-    const float MIN_RADIUS          = 3.0f;
-    const sf::Color DEFAULT_COLOR   = sf::Color::White;
-    const size_t SPAWN_BORDER       = 100;
+    static const size_t MAX_ANGLE_COUNT    = 10;
+    static const size_t MIN_ANGLE_COUNT    = 5;
+    static const float MAX_RADIUS          = 7.0f;
+    static const float MIN_RADIUS          = 3.0f;
+    static const sf::Color DEFAULT_COLOR   = sf::Color::White;
+    static const size_t SPAWN_BORDER       = 100;
 }
 
 class BackgroundElement {

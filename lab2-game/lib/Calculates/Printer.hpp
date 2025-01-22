@@ -29,11 +29,11 @@ const char* PrinterExceptions::what() const noexcept {
 }
 
 namespace PrinterValues {
-    const sf::Vector2f DEFAULT_SCORE_POSITION   = {10, 10};
-    const size_t DEFAULT_SCORE_SIZE             = 30;
-    const size_t DEFAULT_GAME_OVER_SIZE         = 50;
-    const size_t DEFAULT_SCORE_GAME_OVER_SIZE   = 30;
-    const float GAME_OVER_SCREEN_TIME           = 3.0f;
+    static const sf::Vector2f DEFAULT_SCORE_POSITION   = {10, 10};
+    static const size_t DEFAULT_SCORE_SIZE             = 30;
+    static const size_t DEFAULT_GAME_OVER_SIZE         = 50;
+    static const size_t DEFAULT_SCORE_GAME_OVER_SIZE   = 30;
+    static const float GAME_OVER_SCREEN_TIME           = 3.0f;
 }
 
 class Printer {
