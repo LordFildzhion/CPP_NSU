@@ -15,7 +15,7 @@ class ReaderConfiguration {
     std::vector<std::string> getConfiguration() const;
     
     void setInputPath(const std::string& inputPath);
-
+    
 };
 
 ReaderConfiguration::ReaderConfiguration() {
