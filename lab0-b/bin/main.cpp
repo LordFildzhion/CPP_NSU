@@ -1,32 +1,69 @@
-#include <iostream>
+/*
 
-#include "lib/word_counter/word_counter.hpp"
+Данная программа реализует подсчёт слов в файле "input.txt"
+Подсчитанная информация выводится в файл "output.csv" в порядке возрастания количества слов.
+Формат итоговой таблицы:
+
+Слово | Количество | Процентное соотношение
+******|************|***********************
+******|************|***********************
+******|************|***********************
+******|************|***********************
+******|************|***********************
+******|************|***********************
+******|************|***********************
+******|************|***********************
+******|************|***********************
+******|************|***********************
+*/
+
+
+#include <iostream>
+#include <vector>
+
+
+#include "StringHelper.hpp"
+#include "WordCounter.hpp"
+#include "Reader.hpp"
+#include "Writer.hpp"
+
+static const size_t REQUIRED_NUMBER_OF_ARGUMENTS = 3;
+
+class MainCountArgumentsException : public std::exception {
+ private:
+    std::string error_message;
+
+ public:
+    explicit MainCountArgumentsException(const std::string &message) : error_message(message) {}
+    const char* what() const noexcept;
+};
 
 
 int main(int argc, char* argv[]) {
-    if (argc != 3) {
-        std::cout << "ERROR: main.cpp: check on count arguments: "
-                  << (argc < 3 ? "More arguments are needed (3)"
-                               : "Fewer arguments are needed (3)")
-                  << std::endl << "program.exe input_file.txt output_file.csv";
-        return 0;
+    if (argc != REQUIRED_NUMBER_OF_ARGUMENTS) {
+        throw MainCountArgumentsException("ERROR: main.cpp: check on count arguments");
     }
+    StringHelper::StringHelper *helper = StringHelper::StringHelper::getInstance();
 
-    word_counter wc(argv[1], argv[2]);
+    Reader<std::string> reader(argv[1]);
+    reader.ReadElements();
+    std::vector<std::string> words = reader.GetElements();
 
-    try
-    {
-        wc.read();
-        wc.calculate();
-        wc.write();
-    }
-    catch(const wc_error error)
-    {
-        std::cerr << error.what() << '\n';
-    }
+    std::cout << "Words in text: " << words.size() << std::endl;
+
+    WordCounter counter(words);
+    counter.Calculate();
+    std::vector <StringHelper::WordInformation> calculated_words = counter.GetCalculatedWords();
+    
+    std::cout << "Different words: " << calculated_words.size() << std::endl;
+
+    Writer <StringHelper::WordInformation> writer(argv[2]);
+    writer.Write(calculated_words);
 
     return 0;
 }
 
-// Добавить классы reader/writer
-// Изменить функцию calculate_and_write
+
+const char* MainCountArgumentsException::what() const noexcept {
+    return error_message.c_str();
+}
